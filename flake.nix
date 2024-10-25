@@ -38,6 +38,7 @@
     ...
   } @ inputs: let
     # https://github.com/LongerHV/neovim-plugins-overlay/blob/master/flake.nix
+    # https://github.com/Misterio77/nix-starter-configs/issues/64
     forAllSystems = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
     overlay = final: prev: let
       mkPlugin = name: value:
