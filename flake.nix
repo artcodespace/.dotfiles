@@ -32,6 +32,7 @@
     };
   };
 
+  # TODO >>> we want to unpick this loop to ensure I actually understand what is going on here
   outputs = {
     self,
     nixpkgs,
