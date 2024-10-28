@@ -40,8 +40,31 @@
   outputs = {
     nixpkgs,
     home-manager,
+    conform-nvim,
+    fzf-lua,
+    nvim-lspconfig,
+    nvim-surround,
+    nvim-treesitter,
+    pax,
+    vim-tmux-navigator,
     ...
   } @ inputs :
+  let
+    forAllSystems = nixpkgs.lib.genAttrs ["aarch64-darwin" "x86_64-linux"];
+    pinnedPlugins = [conform-nvim fzf-lua nvim-lspconfig nvim-surround nvim-treesitter pax vim-tmux-navigator];
+
+    overlay = final: prev:
+      let
+        mkPlugin = name: value:
+	  prev.pkgs.vimUtils.buildVimPlugin {
+	    pname = name;
+	    version = value.lastModifiedDate;
+	    src = value;
+	  };
+      in {
+        nvimPlugins = builtins.mapAttrs mkPlugin pinnedPlugins;
+      };
+  in
   {
     homeConfigurations = {
       "art@maria" = home-manager.lib.homeManagerConfiguration {

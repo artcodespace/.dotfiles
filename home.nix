@@ -10,9 +10,8 @@
   pax,
   vim-tmux-navigator,
   ...
-}: let 
-  
-in{
+}: 
+{
   # HOME
   home = {
     username = "alunturner";
