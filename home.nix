@@ -1,14 +1,5 @@
 {
-  config,
   pkgs,
-  inputs,
-  conform-nvim,
-  fzf-lua,
-  nvim-lspconfig,
-  nvim-surround,
-  nvim-treesitter,
-  pax,
-  vim-tmux-navigator,
   ...
 }: 
 {
@@ -60,7 +51,7 @@
     '';
   };
   programs.tmux = {
-    enable = true;
+   enable = true;
     shell = "${pkgs.zsh}/bin/zsh";
     sensibleOnTop = false;
   };
