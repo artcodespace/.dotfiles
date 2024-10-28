@@ -6,8 +6,8 @@
 }: {
   # HOME
   home = {
-    username = "art";
-    homeDirectory = "/Users/art";
+    username = "alunturner";
+    homeDirectory = "/Users/alunturner";
     # Do not change this value, even if you update Home Manager.
     stateVersion = "24.05";
     packages = [
@@ -21,21 +21,21 @@
 
   # Files that go into user/.config/...
   xdg.configFile = {
-    "lazygit/config.yml" = ./lazygit/.config/lazygit/config.yml;
+    "lazygit/config.yml".source = config.lib.file.mkOutOfStoreSymlink ./lazygit/.config/lazygit/config.yml;
     nvim = {
-      source = ./nvim/.config/nvim;
+      source = config.lib.file.mkOutOfStoreSymlink ./nvim/.config/nvim;
       recursive = true;
     };
-    "starship.toml" = ./starship/.config/starship.toml;
-    "tmux/tmux.conf" = ./tmux/.config/tmux/tmux.conf;
-    "wezterm/wezterm.lua" = ./wezterm/.config/wezterm/wezterm.lua;
+    "starship.toml".source = config.lib.file.mkOutOfStoreSymlink ./starship/.config/starship.toml;
+    "tmux/tmux.conf".source = config.lib.file.mkOutOfStoreSymlink ./tmux/.config/tmux/tmux.conf;
+    "wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink ./wezterm/.config/wezterm/wezterm.lua;
   };
 
   # PROGRAMS
   programs.home-manager.enable = true;
   programs.git = {
     enable = true;
-    userName = "art";
+    userName = "alunturner";
     userEmail = "56027671+artcodespace@users.noreply.github.com";
   };
   programs.wezterm = {

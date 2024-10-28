@@ -12,16 +12,17 @@
   outputs = {
     nixpkgs,
     home-manager,
+    ...
   } @ inputs: {
     homeConfigurations = {
       "art@maria" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [./nix/home.nix];
+        modules = [./home.nix];
         extraSpecialArgs = {inputs = inputs;};
       };
       "art@angharad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [./nix/home.nix];
+        modules = [./home.nix];
         extraSpecialArgs = {inputs = inputs;};
       };
     };
