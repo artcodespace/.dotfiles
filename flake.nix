@@ -51,6 +51,7 @@
   } @ inputs :
   let
     forAllSystems = nixpkgs.lib.genAttrs ["aarch64-darwin" "x86_64-linux"];
+    # TODO these need to be an attribute set, so filter the inputs to remove non-plugin things
     pinnedPlugins = [conform-nvim fzf-lua nvim-lspconfig nvim-surround nvim-treesitter pax vim-tmux-navigator];
 
     overlay = final: prev:
