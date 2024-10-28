@@ -1,30 +1,19 @@
 {
+  config,
   pkgs,
   inputs,
   ...
 }: {
   # HOME
   home = {
-    username = "alunturner";
-    homeDirectory = "/Users/alunturner";
-    # You should not change this value, even if you update Home Manager. If you do
-    # want to update the value, then make sure to first check the Home Manager
-    # release notes.
+    username = "art";
+    homeDirectory = "/Users/art";
+    # Do not change this value, even if you update Home Manager.
     stateVersion = "24.05";
     packages = [
       pkgs.nodejs_22
       pkgs.nodePackages.nodemon
-      # TODO >>> figure out rust installation
     ];
-    # How to put a file into <user>/
-    file = {
-      # eg ".screenrc".source = dotfiles/screenrc;
-    };
-    # These are sourced when using a shell provided by home-manager.
-    # If you go away from home-manager, manually source from one of:
-    #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-    #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-    #  /etc/profiles/per-user/alunturner/etc/profile.d/hm-session-vars.sh
     sessionVariables = {
       EDITOR = "nvim";
     };
@@ -32,6 +21,7 @@
 
   # How to put a file into <user>/.config/
   xdg.configFile = {
+    "wezterm/wezterm.lua" = config.lib.file.mkOutOfStoreSymlink ./wezterm/.config/wezterm/wezterm.lua;
     "nvim/colors/pax.lua".text = "require('pax').load()";
   };
 
@@ -43,19 +33,15 @@
   # Git
   programs.git = {
     enable = true;
-    userName = "alunturner";
-    userEmail = "alun.turner@googlemail.com";
+    userName = "art";
+    userEmail = "56027671+artcodespace@users.noreply.github.com";
   };
-
-  # Tiling window manager
-  # TODO setup conditional use of yabai/hyprland
 
   # Terminal
   programs.wezterm = {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    extraConfig = builtins.readFile ./config/wezterm/wezterm.lua;
   };
 
   # Shell - may be worth going over to bash for better `nix develop` experience
