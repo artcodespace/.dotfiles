@@ -38,43 +38,48 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     home-manager,
-    conform-nvim,
-    fzf-lua,
-    nvim-lspconfig,
-    nvim-surround,
-    nvim-treesitter,
-    pax,
-    vim-tmux-navigator,
     ...
   } @ inputs :
   let
-    forAllSystems = nixpkgs.lib.genAttrs ["aarch64-darwin" "x86_64-linux"];
-    # TODO these need to be an attribute set, so filter the inputs to remove non-plugin things
-    pinnedPlugins = [conform-nvim fzf-lua nvim-lspconfig nvim-surround nvim-treesitter pax vim-tmux-navigator];
+    # get plugins as an attribute set
+    pinnedPlugins = {inherit(inputs) conform-nvim fzf-lua nvim-lspconfig nvim-surround nvim-treesitter pax vim-tmux-navigator;};
 
+    # helper function for the overlay
     overlay = final: prev:
-      let
-        mkPlugin = name: value:
+      {
+        nvimPlugins = builtins.mapAttrs (name: value:
 	  prev.pkgs.vimUtils.buildVimPlugin {
 	    pname = name;
 	    version = value.lastModifiedDate;
 	    src = value;
-	  };
-      in {
-        nvimPlugins = builtins.mapAttrs mkPlugin pinnedPlugins;
+	  }) pinnedPlugins;
       };
+
+    darwinPackages = import nixpkgs {
+      system = "aarch64-darwin";
+      overlays = [ overlay ];
+      config = { };
+    };
+
+    linuxPackages = import nixpkgs {
+      system = "x86_64-linux";
+      overlays = [ overlay ];
+      config = { };
+    };
   in
   {
+    overlays.default = overlay;
     homeConfigurations = {
       "art@maria" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        pkgs = darwinPackages;
         modules = [./home.nix];
         extraSpecialArgs = {inputs = inputs;};
       };
       "art@angharad" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        pkgs = linuxPackages;
         modules = [./home.nix];
         extraSpecialArgs = {inputs = inputs;};
       };
