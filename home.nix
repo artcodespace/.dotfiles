@@ -21,14 +21,14 @@
 
   # Files that go into user/.config/...
   xdg.configFile = {
-    "lazygit/config.yml".source = config.lib.file.mkOutOfStoreSymlink ./lazygit/.config/lazygit/config.yml;
+    "lazygit/config.yml".source = ./lazygit/.config/lazygit/config.yml;
     nvim = {
-      source = config.lib.file.mkOutOfStoreSymlink ./nvim/.config/nvim;
+      source = ./nvim/.config/nvim;
       recursive = true;
     };
-    "starship.toml".source = config.lib.file.mkOutOfStoreSymlink ./starship/.config/starship.toml;
-    "tmux/tmux.conf".source = config.lib.file.mkOutOfStoreSymlink ./tmux/.config/tmux/tmux.conf;
-    "wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink ./wezterm/.config/wezterm/wezterm.lua;
+    "starship.toml".source = ./starship/.config/starship.toml;
+    "tmux/tmux.conf".source = ./tmux/.config/tmux/tmux.conf;
+    "wezterm/wezterm.lua".source = ./wezterm/.config/wezterm/wezterm.lua;
   };
 
   # PROGRAMS
