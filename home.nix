@@ -2,8 +2,17 @@
   config,
   pkgs,
   inputs,
+  conform-nvim,
+  fzf-lua,
+  nvim-lspconfig,
+  nvim-surround,
+  nvim-treesitter,
+  pax,
+  vim-tmux-navigator,
   ...
-}: {
+}: let 
+  
+in{
   # HOME
   home = {
     username = "alunturner";

@@ -40,13 +40,6 @@
   outputs = {
     nixpkgs,
     home-manager,
-    conform-nvim,
-    fzf-lua,
-    nvim-lspconfig,
-    nvim-surround,
-    nvim-treesitter,
-    pax,
-    vim-tmux-navigator,
     ...
   } @ inputs :
   {
