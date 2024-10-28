@@ -77,6 +77,15 @@
     vimAlias = true;
     vimdiffAlias = true;
     defaultEditor = true;
+    plugins = [
+      pkgs.nvimPlugins.conform-nvim
+      pkgs.nvimPlugins.fzf-lua
+      pkgs.nvimPlugins.nvim-lspconfig
+      pkgs.nvimPlugins.nvim-surround
+      pkgs.nvimPlugins.vim-tmux-navigator
+      pkgs.nvimPlugins.nvim-treesitter
+      pkgs.nvimPlugins.pax
+    ];
     extraPackages = [
       pkgs.lua-language-server
       pkgs.stylua
