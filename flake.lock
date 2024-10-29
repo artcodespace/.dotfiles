@@ -124,16 +124,16 @@
     "pax": {
       "flake": false,
       "locked": {
-        "lastModified": 1726604935,
-        "narHash": "sha256-hW4XsdSB+nfsjaXm4MXyrwZbT381P5ep+Wu/jFzw1fI=",
-        "owner": "alunturner",
+        "lastModified": 1730200996,
+        "narHash": "sha256-Io8daomHhUS8mqWU6xeapox8R+OP6z561imxg1K5RcI=",
+        "owner": "artcodespace",
         "repo": "pax",
-        "rev": "26fcb99d9bd0e27b2b0b9fe6586181258463481f",
+        "rev": "c587d74a02da26a2f9e04f8ac9426ac4c4a004bb",
         "type": "github"
       },
       "original": {
-        "owner": "alunturner",
-        "ref": "26fcb99d9bd0e27b2b0b9fe6586181258463481f",
+        "owner": "artcodespace",
+        "ref": "c587d74a02da26a2f9e04f8ac9426ac4c4a004bb",
         "repo": "pax",
         "type": "github"
       }
