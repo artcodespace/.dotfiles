@@ -158,14 +158,13 @@ require("conform").setup({
 
 -- PLUGIN: nvim-treesitter
 local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc" }
+-- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
 
 require("nvim-treesitter.configs").setup({
 	parser_install_dir = parser_install_dir,
 	ensure_installed = parsers,
-	sync_install = false,
-	auto_install = false,
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
