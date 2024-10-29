@@ -28,7 +28,7 @@
       flake = false;
     };
     pax = {
-      url = "github:alunturner/pax?ref=26fcb99d9bd0e27b2b0b9fe6586181258463481f";
+      url = "github:artcodespace/pax?ref=c587d74a02da26a2f9e04f8ac9426ac4c4a004bb";
       flake = false;
     };
     vim-tmux-navigator = {
