@@ -86,6 +86,7 @@ vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
 -- PLUGIN: nvim-lspconfig
+-- TODO >>> write these manually, remove nvim-lspconfig
 require("lspconfig.ui.windows").default_options = { border = "rounded" }
 local lspconfig = require("lspconfig")
 
@@ -308,17 +309,24 @@ vim.diagnostic.config({
 	jump = { float = true }, -- see https://github.com/neovim/neovim/pull/29067
 })
 
+-- TODO >>> This is actually pretty nice. Let's just make the active window have
+-- a white bar (instead of pink) then we can have a nice contrast with the error
+-- flags
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
-	return "%=%#Normal# " .. icon .. " %t %*%="
+	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
+	local error_string = has_errors and "%#DiagnosticError#███" or ""
+	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
 end
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
-function Ruler()
-	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	return has_errors and "%#DiagnosticError#███" or ""
-end
-vim.opt.rulerformat = "%3(%=%{%v:lua.Ruler()%}%)"
+-- TODO >>> Delete this custom ruler, move vim.opt.ruler to the rest of the options
+-- function Ruler()
+-- 	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
+-- 	return has_errors and "%#DiagnosticError#███" or ""
+-- end
+-- vim.opt.rulerformat = "%3(%=%{%v:lua.Ruler()%}%)"
+vim.opt.ruler = false
 
 -- SECTION: INITIALISE
 vim.opt.background = "dark"
