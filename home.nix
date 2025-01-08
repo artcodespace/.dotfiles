@@ -43,6 +43,7 @@
     enableZshIntegration = true;
   };
   # Decide on whether zsh or bash is the one
+  # TODO >>> switch over to bash
   programs.zsh = {
     enable = true;
     enableCompletion = true;
