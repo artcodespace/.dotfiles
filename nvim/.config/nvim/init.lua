@@ -86,6 +86,7 @@ vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
 -- PLUGIN: nvim-lspconfig
+-- TODO >>> write these manually, remove nvim-lspconfig
 require("lspconfig.ui.windows").default_options = { border = "rounded" }
 local lspconfig = require("lspconfig")
 
@@ -287,6 +288,7 @@ vim.opt.ignorecase = true
 vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
+vim.opt.ruler = false
 vim.opt.shiftwidth = 4
 vim.opt.showcmd = false
 vim.opt.sidescrolloff = 7
@@ -308,17 +310,14 @@ vim.diagnostic.config({
 	jump = { float = true }, -- see https://github.com/neovim/neovim/pull/29067
 })
 
+-- TODO >>> May want to look at colouring red vs pink here for error flags
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
-	return "%=%#Normal# " .. icon .. " %t %*%="
+	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
+	local error_string = has_errors and "%#DiagnosticError#███" or ""
+	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
 end
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
-
-function Ruler()
-	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	return has_errors and "%#DiagnosticError#███" or ""
-end
-vim.opt.rulerformat = "%3(%=%{%v:lua.Ruler()%}%)"
 
 -- SECTION: INITIALISE
 vim.opt.background = "dark"

@@ -18,10 +18,10 @@ The idea behind this is that I can maintain a single source of truth for the dot
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-2. Install Brew packages (node, ripgrep, fzf, fd, stow, neovim, lua formatter and lang server, tmux, starship)
+2. Install Brew packages (node, ripgrep, fzf, fd, jq, stow, neovim, lua formatter and lang server, tmux, starship)
 
 ```bash
-brew install node ripgrep fzf fd stow neovim stylua lua-language-server tmux starship
+brew install node ripgrep fzf fd jq stow neovim stylua lua-language-server tmux starship
 ```
 
 3. Install Wezterm
@@ -39,7 +39,7 @@ npm i -g typescript typescript-language-server eslint vscode-langservers-extract
 5. Clone .dotfiles at the top level `~/.dotfiles`, recursive because we use submodules
 
 ```bash
-cd && git clone --recurse-submodules https://github.com/alunturner/.dotfiles.git
+cd && git clone --recurse-submodules https://github.com/artcodespace/.dotfiles.git
 ```
 
 6. Stow the config folders:
@@ -53,3 +53,4 @@ cd ~/.dotfiles && stow nvim tmux lazygit wezterm starship
 # TODO
 
 - Pax: make a light theme, accept a highlight count, look at ts highlight groups
+- Add a Brewfile for all of the above

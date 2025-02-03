@@ -18,26 +18,8 @@ config.color_scheme = "dark"
 config.font = w.font("JetBrainsMonoNL Nerd Font")
 config.font_size = 15
 
--- COMMAND PALETTE, ADD ENTRY FOR THEME TOGGLE PLUS HANDLER
+-- COMMAND PALETTE
 config.command_palette_font_size = 18
-w.on("augment-command-palette", function()
-	return {
-		{
-			brief = "Toggle light/dark mode",
-			icon = "fa_sun_o",
-			action = w.action.EmitEvent("toggle-colorscheme"),
-		},
-	}
-end)
-w.on("toggle-colorscheme", function(window)
-	local overrides = window:get_config_overrides() or {}
-	if not overrides.color_scheme then
-		overrides.color_scheme = "light"
-	else
-		overrides.color_scheme = nil
-	end
-	window:set_config_overrides(overrides)
-end)
 
 -- OTHER
 config.enable_tab_bar = false
