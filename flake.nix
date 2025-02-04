@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     conform-nvim = {
-      url = "github:stevearc/conform.nvim?ref=1a99fdc1d3aa9ccdf3021e67982a679a8c5c740c";
+      url = "github:stevearc/conform.nvim?ref=363243c03102a531a8203311d4f2ae704c620d9b";
       flake = false;
     };
     fzf-lua = {
@@ -20,7 +20,7 @@
       flake = false;
     };
     nvim-surround = {
-      url = "github:kylechui/nvim-surround?ref=ec2dc7671067e0086cdf29c2f5df2dd909d5f71f";
+      url = "github:kylechui/nvim-surround?ref=ae298105122c87bbe0a36b1ad20b06d417c0433e";
       flake = false;
     };
     nvim-treesitter = {
