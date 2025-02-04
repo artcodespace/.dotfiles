@@ -24,7 +24,7 @@
       flake = false;
     };
     nvim-treesitter = {
-      url = "github:nvim-treesitter/nvim-treesitter?ref=4d94c24d6cb9985347bdf0692c1fd81088c6c8b2";
+      url = "github:nvim-treesitter/nvim-treesitter?ref=53a6b3993f5803378d4d031bf114c0b125a52ba8";
       flake = false;
     };
     pax = {
