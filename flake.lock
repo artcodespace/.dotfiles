@@ -20,16 +20,16 @@
     "fzf-lua": {
       "flake": false,
       "locked": {
-        "lastModified": 1726327850,
-        "narHash": "sha256-np9G0EMzacMAzjayPe/CRh3RQHxv5x48ieWuAPcSEGc=",
+        "lastModified": 1738702817,
+        "narHash": "sha256-vyOYNAY37F+d4YS4uoAfowcCf7ah463pGAWOKMr3O6c=",
         "owner": "ibhagwan",
         "repo": "fzf-lua",
-        "rev": "f513524561060f2b9e3bd6d36ff046bfa03ca114",
+        "rev": "394ddb2b80c58731c09b5775ca5d05d578b1de3d",
         "type": "github"
       },
       "original": {
         "owner": "ibhagwan",
-        "ref": "f513524561060f2b9e3bd6d36ff046bfa03ca114",
+        "ref": "394ddb2b80c58731c09b5775ca5d05d578b1de3d",
         "repo": "fzf-lua",
         "type": "github"
       }
