@@ -60,14 +60,7 @@ fzf.setup({
 		"Ripgrep",
 		{ rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e" }
 	),
-	diagnostics = configure_finder("Diagnostics", {
-		severity_limit = "error",
-		actions = {
-			["ctrl-g"] = function()
-				print("TODO hook up severity filter")
-			end,
-		},
-	}),
+	diagnostics = configure_finder("Diagnostics", { severity_limit = "error" }),
 	lsp = {
 		jump_to_single_result = true,
 		prompt_postfix = "  ",
