@@ -158,7 +158,7 @@ require("conform").setup({
 })
 
 -- PLUGIN: nvim-treesitter
-local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc" }
+local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
 -- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
