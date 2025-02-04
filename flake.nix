@@ -16,7 +16,7 @@
       flake = false;
     };
     nvim-lspconfig = {
-      url = "github:neovim/nvim-lspconfig?ref=eb36e0185ad4b92b0999fb698428f2966334d2c1";
+      url = "github:neovim/nvim-lspconfig?ref=66bc018936c6ff76beb75f89d986af6442db4001";
       flake = false;
     };
     nvim-surround = {
@@ -32,7 +32,7 @@
       flake = false;
     };
     vim-tmux-navigator = {
-      url = "github:christoomey/vim-tmux-navigator?ref=a9b52e7d36114d40350099f254b5f299a35df978";
+      url = "github:christoomey/vim-tmux-navigator?ref=d847ea942a5bb4d4fab6efebc9f30d787fd96e65";
       flake = false;
     };
   };
