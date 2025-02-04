@@ -73,16 +73,16 @@
     "nvim-lspconfig": {
       "flake": false,
       "locked": {
-        "lastModified": 1726551548,
-        "narHash": "sha256-LpkQCq5RJL+s1ywa2h8HYIFhu3N5WuieKcFYEHECn5k=",
+        "lastModified": 1738633387,
+        "narHash": "sha256-ZWNx2zmMXIbl66KvpQt3Cv9MXR3HQe/zkjXVo+s31rY=",
         "owner": "neovim",
         "repo": "nvim-lspconfig",
-        "rev": "eb36e0185ad4b92b0999fb698428f2966334d2c1",
+        "rev": "66bc018936c6ff76beb75f89d986af6442db4001",
         "type": "github"
       },
       "original": {
         "owner": "neovim",
-        "ref": "eb36e0185ad4b92b0999fb698428f2966334d2c1",
+        "ref": "66bc018936c6ff76beb75f89d986af6442db4001",
         "repo": "nvim-lspconfig",
         "type": "github"
       }
@@ -154,16 +154,16 @@
     "vim-tmux-navigator": {
       "flake": false,
       "locked": {
-        "lastModified": 1726325974,
-        "narHash": "sha256-IcgMyMbI2/evwRqdawXYJmJw3Q/jGbVuCOWUKYXz2mk=",
+        "lastModified": 1735233883,
+        "narHash": "sha256-EkuAlK7RSmyrRk3RKhyuhqKtrrEVJkkuOIPmzLHw2/0=",
         "owner": "christoomey",
         "repo": "vim-tmux-navigator",
-        "rev": "a9b52e7d36114d40350099f254b5f299a35df978",
+        "rev": "d847ea942a5bb4d4fab6efebc9f30d787fd96e65",
         "type": "github"
       },
       "original": {
         "owner": "christoomey",
-        "ref": "a9b52e7d36114d40350099f254b5f299a35df978",
+        "ref": "d847ea942a5bb4d4fab6efebc9f30d787fd96e65",
         "repo": "vim-tmux-navigator",
         "type": "github"
       }
