@@ -12,7 +12,7 @@
       flake = false;
     };
     fzf-lua = {
-      url = "github:ibhagwan/fzf-lua?ref=f513524561060f2b9e3bd6d36ff046bfa03ca114";
+      url = "github:ibhagwan/fzf-lua?ref=394ddb2b80c58731c09b5775ca5d05d578b1de3d";
       flake = false;
     };
     nvim-lspconfig = {

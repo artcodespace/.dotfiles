@@ -7,6 +7,7 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
 -- SECTION: PLUGIN CONFIGURATION AND KEYBINDINGS
 -- PLUGIN: fzf
+-- TODO >>> figure out the floating h!
 local fzf = require("fzf-lua")
 local function configure_finder(title, opts)
 	return vim.tbl_deep_extend("keep", opts or {}, {
