@@ -20,7 +20,6 @@
         wezterm
         starship
         neovim
-        jetbrains-mono
         fzf
         lazygit
         ripgrep
