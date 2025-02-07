@@ -15,7 +15,7 @@ config.color_schemes = {
 config.color_scheme = "dark"
 
 -- FONT
-config.font = w.font("JetBrainsMonoNL Nerd Font")
+config.font = w.font("JetBrains Mono NL")
 config.font_size = 15
 
 -- COMMAND PALETTE
