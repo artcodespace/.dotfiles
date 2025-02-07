@@ -13,11 +13,10 @@
     packages."aarch64-darwin".default = pkgs.buildEnv {
       name = "dotfile-nix-profile";
       paths = with pkgs; [
-        # BASICS
         git
         vim
         stow
-        # TERMINAL, PROMPT, EDITOR, CLI TOOLS
+        tmux
         wezterm
         starship
         neovim
@@ -27,19 +26,17 @@
         fd
         yazi
         jq
-        # JAVASCRIPT
         nodejs_22
         nodePackages.nodemon
         vscode-langservers-extracted
         nodePackages.typescript-language-server
         nodePackages.eslint
         prettierd
-        # LUA
         lua-language-server
         stylua
-        # NIX
         nixd
         alejandra
+        aerospace
       ];
     };
   };
