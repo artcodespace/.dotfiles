@@ -12,7 +12,11 @@
   {
     packages."aarch64-darwin".default = pkgs.buildEnv {
       name = "dotfile-nix-profile";
-      paths = [];
+      paths = with pkgs; [
+        git
+        vim
+        stow
+      ];
     };
   };
 }
