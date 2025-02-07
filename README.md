@@ -32,4 +32,5 @@ nix profiles install ~/.dotfiles
 
 # Notes
 
+- If different font required, use https://www.nerdfonts.com/font-downloads
 - If not on Wezterm, may want to try and find Catpuccin Mocha set terminal colours to Catpuccin Mocha/Latte and override fg color #e9e7dd / #19191f
