@@ -8,7 +8,7 @@
   outputs = inputs:
   let
     linux = { displayName= "linux"; architecture= "x86_64-linux"; };
-    # mac = { displayName= "mac"; architecture= "aarch64-darwin"; };
+    mac = { displayName= "mac"; architecture= "aarch64-darwin"; };
 
     buildPackage = { displayName, architecture }: let
       pkgs = inputs.nixpkgs.legacyPackages.${architecture};
@@ -45,6 +45,7 @@
   {
     packages = {
       ${linux.architecture} = buildPackage linux;
+      ${mac.architecture} = buildPackage mac;
     };
   };
 }
