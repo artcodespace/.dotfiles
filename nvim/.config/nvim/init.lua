@@ -308,7 +308,6 @@ vim.diagnostic.config({
 	},
 })
 
--- TODO >>> May want to look at colouring red vs pink here for error flags
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
 	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
