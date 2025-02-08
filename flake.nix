@@ -7,15 +7,20 @@
 
   outputs = inputs:
   let
+    # Define some variables to make handling system specifics easier.
     linux = { displayName= "linux"; architecture= "x86_64-linux"; };
     mac = { displayName= "mac"; architecture= "aarch64-darwin"; };
 
-    buildPackage = { displayName, architecture }: let
+    # Helper function. Call it with one of the above objects.
+    # It will call the system specific`buildEnv` function with a name
+    # reflecting the profile being built and system specific packages.
+    buildPackage = { displayName, architecture } @ system: let
       pkgs = inputs.nixpkgs.legacyPackages.${architecture};
     in {
       default = pkgs.buildEnv {
           name = "dotfile-nix-profile-" + displayName;
           paths = with pkgs; [
+            # COMMON
             stow
             tmux
             wezterm
@@ -37,8 +42,17 @@
             stylua
             nixd
             alejandra
-            aerospace
-          ];
+          ] ++ (if system == mac then
+            # MAC SPECIFIC
+            [aerospace]
+          else
+            []
+          ) ++ (if system == linux then 
+            # LINUX SPECIFIC
+            []
+          else
+            []  
+          );
       };
     };
   in
