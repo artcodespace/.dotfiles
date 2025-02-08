@@ -300,6 +300,12 @@ vim.diagnostic.config({
 	severity_sort = true,
 	virtual_text = false,
 	jump = { float = true }, -- see https://github.com/neovim/neovim/pull/29067
+	signs = {
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
+			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
+		},
+	},
 })
 
 -- TODO >>> May want to look at colouring red vs pink here for error flags
