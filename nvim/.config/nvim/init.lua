@@ -300,13 +300,19 @@ vim.diagnostic.config({
 	severity_sort = true,
 	virtual_text = false,
 	jump = { float = true }, -- see https://github.com/neovim/neovim/pull/29067
+	signs = {
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
+			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
+		},
+	},
 })
 
 -- TODO >>> May want to look at colouring red vs pink here for error flags
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
 	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	local error_string = has_errors and "%#DiagnosticError#███" or ""
+	local error_string = has_errors and "▜▛▜▛▜▛" or ""
 	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
 end
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
