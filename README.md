@@ -32,7 +32,6 @@ cd ~/.dotfiles && stow nvim tmux lazygit wezterm starship [zsh]
 - Neovim:
   - transition off nvim-lsp-config
   - find out why on earth fzf-lua now has a random `h` in the file finder title bar
-  - check out https://github.com/nvim-treesitter/nvim-treesitter/issues/2100 for idea for how to display treesitter context somewhere (place to be determined, ruler??)
 - Nix:
   - look at dir env integration for dev shell investigation work
 - Aerospace:
