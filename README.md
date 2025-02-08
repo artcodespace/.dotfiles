@@ -14,16 +14,16 @@ This repo is designed to be used anywhere by:
 cd && git clone --recurse-submodules https://github.com/artcodespace/.dotfiles.git
 ```
 
-2. Stow the config folders:
-
-```bash
-cd ~/.dotfiles && stow nvim tmux lazygit wezterm starship
-```
-
-3. Install dependencies using nix:
+2. Install dependencies using nix:
 
 ```bash
 nix profiles install ~/.dotfiles
+```
+
+3. Stow the config folders:
+
+```bash
+cd ~/.dotfiles && stow nvim tmux lazygit wezterm starship [zsh]
 ```
 
 # TODO
