@@ -29,9 +29,6 @@ cd ~/.dotfiles && stow nvim tmux lazygit wezterm starship [zsh]
 # TODO
 
 - Pax: make a light theme, accept a highlight count, look at ts highlight groups
-- Neovim:
-  - transition off nvim-lsp-config
-  - find out why on earth fzf-lua now has a random `h` in the file finder title bar
 - Nix:
   - look at dir env integration for dev shell investigation work
 - Aerospace:
