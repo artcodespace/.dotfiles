@@ -37,8 +37,6 @@ cd ~/.dotfiles && stow nvim tmux lazygit wezterm starship [zsh]
   - look at dir env integration for dev shell investigation work
 - Aerospace:
   - look at the default keybinds and compare to sway - want a consistent configuration for tiling window managers
-- Tmux:
-  - make the default shell reflect the system default shell - on mac it's currently defaulting to bash for some reason
 
 # Notes
 
