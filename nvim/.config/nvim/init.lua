@@ -312,7 +312,7 @@ vim.diagnostic.config({
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
 	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	local error_string = has_errors and "%#DiagnosticError#███" or ""
+	local error_string = has_errors and "%#DiagnosticError#████" or ""
 	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
 end
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
