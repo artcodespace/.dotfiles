@@ -13,9 +13,6 @@
 [submodule "nvim/.config/nvim/pack/plugins/start/vim-tmux-navigator"]
 	path = nvim/.config/nvim/pack/plugins/start/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator
-[submodule "nvim/.config/nvim/pack/plugins/start/nvim-treesitter"]
-	path = nvim/.config/nvim/pack/plugins/start/nvim-treesitter
-	url = https://github.com/nvim-treesitter/nvim-treesitter
 [submodule "nvim/.config/nvim/pack/plugins/start/pax"]
 	path = nvim/.config/nvim/pack/plugins/start/pax
-	url = git@github.com:artcodespace/pax.git
+	url = https://github.com/artcodespace/pax.git
