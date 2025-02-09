@@ -34,6 +34,10 @@ cd ~/.dotfiles && stow nvim tmux wezterm starship [zsh]
   - look at dir env integration for dev shell investigation work
 - Aerospace:
   - look at the default keybinds and compare to sway - want a consistent configuration for tiling window managers
+- Starship:
+  - investigate getting some sort of indicator for what is installed in a nix shell
+- Other:
+  - investigate Justfile, may be useful in the future for command line usability improvements
 
 # Notes
 
