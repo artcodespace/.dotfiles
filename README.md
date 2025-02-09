@@ -28,7 +28,6 @@ cd ~/.dotfiles && stow nvim tmux lazygit wezterm starship [zsh]
 
 # TODO
 
-- Pax: make a light theme, accept a highlight count, look at ts highlight groups
 - Nix:
   - look at dir env integration for dev shell investigation work
 - Aerospace:
