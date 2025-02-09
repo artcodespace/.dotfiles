@@ -5,21 +5,30 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
   };
 
-  outputs = inputs:
-  let
+  outputs = inputs: let
     # Define some variables to make handling system specifics easier.
-    linux = { displayName= "linux"; architecture= "x86_64-linux"; };
-    mac = { displayName= "mac"; architecture= "aarch64-darwin"; };
+    linux = {
+      displayName = "linux";
+      architecture = "x86_64-linux";
+    };
+    mac = {
+      displayName = "mac";
+      architecture = "aarch64-darwin";
+    };
 
     # Helper function. Call it with one of the above objects.
     # It will call the system specific`buildEnv` function with a name
     # reflecting the profile being built and system specific packages.
-    buildPackage = { displayName, architecture } @ system: let
+    buildPackage = {
+      displayName,
+      architecture,
+    } @ system: let
       pkgs = inputs.nixpkgs.legacyPackages.${architecture};
     in {
       default = pkgs.buildEnv {
-          name = "dotfile-nix-profile-" + displayName;
-          paths = with pkgs; [
+        name = "dotfile-nix-profile-" + displayName;
+        paths = with pkgs;
+          [
             # COMMON
             stow
             tmux
@@ -42,21 +51,24 @@
             stylua
             nixd
             alejandra
-          ] ++ (if system == mac then
-            # MAC SPECIFIC
-            [aerospace]
-          else
-            []
-          ) ++ (if system == linux then 
-            # LINUX SPECIFIC
-            []
-          else
-            []  
+          ]
+          ++ (
+            if system == mac
+            then
+              # MAC SPECIFIC
+              [aerospace]
+            else []
+          )
+          ++ (
+            if system == linux
+            then
+              # LINUX SPECIFIC
+              []
+            else []
           );
       };
     };
-  in
-  {
+  in {
     packages = {
       ${linux.architecture} = buildPackage linux;
       ${mac.architecture} = buildPackage mac;

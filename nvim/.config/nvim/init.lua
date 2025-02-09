@@ -142,6 +142,7 @@ require("conform").setup({
 		yaml = { "prettierd" },
 		markdown = { "prettierd" },
 		lua = { "stylua" },
+		nix = { "alejandra" },
 	},
 	format_on_save = {
 		lsp_fallback = true,
