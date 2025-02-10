@@ -31,8 +31,8 @@
           [
             # COMMON
             stow
-            tmux
             wezterm
+            tmux
             starship
             neovim
             fzf
@@ -42,6 +42,7 @@
             yazi
             jq
             nodejs_22
+            typescript
             nodePackages.nodemon
             vscode-langservers-extracted
             nodePackages.typescript-language-server
