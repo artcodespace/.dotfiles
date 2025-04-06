@@ -5,8 +5,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
--- SECTION: PLUGIN CONFIGURATION AND KEYBINDINGS
--- PLUGIN: fzf
+-- SECTION: PLUGIN.FZF
+-- TODO: upgrade
 local fzf = require("fzf-lua")
 local function configure_finder(title, opts)
 	return vim.tbl_deep_extend("keep", opts or {}, {
@@ -73,63 +73,18 @@ vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>d", fzf.lsp_document_diagnostics)
 vim.keymap.set("n", "<leader>o", fzf.lsp_document_symbols)
 vim.keymap.set("n", "<leader>O", fzf.lsp_live_workspace_symbols)
-vim.keymap.set("n", "gr", fzf.lsp_references)
-vim.keymap.set("n", "gd", fzf.lsp_definitions)
+vim.keymap.set("n", "<leader>r", fzf.lsp_references)
+vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
--- PLUGIN: nvim-lspconfig
-require("lspconfig.ui.windows").default_options = { border = "rounded" }
-local lspconfig = require("lspconfig")
-
--- See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#configurations
-lspconfig.ts_ls.setup({})
-lspconfig.eslint.setup({
-	on_attach = function(_, bufnr)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "EslintFixAll",
-		})
-	end,
-})
-lspconfig.lua_ls.setup({
-	-- stop the lua lsp complaining about calling `vim`
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	},
-})
-lspconfig.cssls.setup({})
-lspconfig.nixd.setup({})
-
--- Use LspAttach to set mapping after the language server attaches
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		-- these could potentially be guarded, see :h lsp-config
-		local opts = { buffer = args.buf }
-		vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-		vim.keymap.set("n", "<leader>c", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
-	end,
-})
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "rounded",
-})
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = "rounded",
-})
-
--- PLUGIN: vim-tmux-navigator
+-- SECTION: PLUGIN.VIM-TMUX-NAVIGATOR
 vim.g.tmux_navigator_no_wrap = 1
 
--- PLUGIN: nvim-surround
+-- SECTION: PLUGIN.NVIM-SURROUND
 require("nvim-surround").setup()
 
--- PLUGIN: conform.nvim
+-- SECTION: PLUGIN.CONFORM
 require("conform").setup({
 	formatters_by_ft = {
 		javascript = { "prettierd" },
@@ -150,7 +105,7 @@ require("conform").setup({
 	},
 })
 
--- PLUGIN: nvim-treesitter
+-- SECTION: PLUGIN.NVIM-TREESITTER
 local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
 -- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
@@ -165,7 +120,35 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
--- SECTION: AUTOCOMMANDS
+-- SECTION: NVIM
+vim.lsp.config("*", {
+	on_attach = function(client)
+		if client.config.root_dir == nil then
+			client.stop(client, true)
+		end
+	end,
+})
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+vim.diagnostic.config({
+	severity_sort = true,
+	jump = { float = true },
+	signs = {
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
+			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
+		},
+	},
+})
+
+function WinBar()
+	local icon = vim.bo.modified and "" or ""
+	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
+	local error_string = has_errors and "▜▛▜▛▜▛" or ""
+	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
+end
+vim.opt.winbar = "%{%v:lua.WinBar()%}"
+
+-- SECTION: NVIM.AUTOCOMMANDS
 -- Start neovim with fzf open if no arguments passed
 vim.api.nvim_create_autocmd("VimEnter", {
 	pattern = "*",
@@ -183,6 +166,7 @@ vim.api.nvim_create_autocmd("filetype", {
 		vim.opt_local.cursorcolumn = false
 	end,
 })
+-- TODO move to snippets
 -- add abbreviations to these filetypes
 vim.api.nvim_create_autocmd("filetype", {
 	pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
@@ -209,6 +193,9 @@ vim.api.nvim_create_autocmd("filetype", {
 		vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", { remap = true, buffer = true })
 	end,
 })
+
+-- TODO extend this to handle loclist in the same way - if you use grr in 0.11, that
+-- populates the qf, but using gO (capital o) populates the loclist.
 -- What was previously in /after/ftplugin/qf.lua
 vim.api.nvim_create_autocmd("filetype", {
 	pattern = "qf",
@@ -234,8 +221,9 @@ vim.api.nvim_create_autocmd("filetype", {
 	end,
 })
 
--- SECTION: KEYBINDS
-local ERROR = { severity = vim.diagnostic.severity.ERROR }
+-- SECTION: NVIM.KEYBINDS
+-- TODO this is sort of like "super escape". May want to look at a "super tab", depending
+-- on how snippets work, and it may be worthwhile due to the tab location (thumb cluster).
 vim.keymap.set("n", "<Esc>", function()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
@@ -251,15 +239,16 @@ vim.keymap.set("n", "<Esc>", function()
 	end
 end, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { silent = true })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { silent = true })
 vim.keymap.set("n", "[e", function()
-	vim.diagnostic.goto_prev(ERROR)
+	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 vim.keymap.set("n", "]e", function()
-	vim.diagnostic.goto_next(ERROR)
+	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
+-- TODO play around with this and vim.lsp.completion - this may allow us to get
+-- autoimport in TS!
 vim.keymap.set("i", "<C-j>", "<C-x><C-o>", { silent = true }) -- Lsp completion
+-- TODO look at why this does not work for olympus.
 vim.api.nvim_create_user_command("Tsc", function()
 	local ts_root = vim.fs.root(0, "tsconfig") -- may need updating in a TS proj at work
 	if ts_root == nil then
@@ -268,8 +257,9 @@ vim.api.nvim_create_user_command("Tsc", function()
 	vim.cmd("compiler tsc | echo 'Building TypeScript...' | silent make! --noEmit | echo 'TypeScript built.' | copen")
 end, {})
 
--- SECTION: OPTIONS
+-- SECTION: NVIM.OPTIONS
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
+vim.o.winborder = "rounded"
 vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "80"
@@ -282,6 +272,8 @@ vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
 vim.opt.ruler = false
+-- lots of TS projects use 2, may want an easy way to toggle this. Also, can set
+-- to 0 to have it follow the tabstop value.
 vim.opt.shiftwidth = 4
 vim.opt.showcmd = false
 vim.opt.sidescrolloff = 7
@@ -295,27 +287,6 @@ vim.opt.swapfile = false
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
-
-vim.diagnostic.config({
-	float = { border = "rounded", severity_sort = true },
-	severity_sort = true,
-	virtual_text = false,
-	jump = { float = true }, -- see https://github.com/neovim/neovim/pull/29067
-	signs = {
-		numhl = {
-			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
-			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
-		},
-	},
-})
-
-function WinBar()
-	local icon = vim.bo.modified and "" or ""
-	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	local error_string = has_errors and "▜▛▜▛▜▛" or ""
-	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
-end
-vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
 -- SECTION: INITIALISE
 vim.opt.background = "dark"
