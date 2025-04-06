@@ -4,6 +4,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 
 -- SECTION: PLUGIN CONFIGURATION AND KEYBINDINGS
 -- PLUGIN: fzf
@@ -78,35 +79,6 @@ vim.keymap.set("n", "<leader>r", fzf.lsp_references)
 vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
-
--- PLUGIN: nvim-lspconfig
--- TODO: REMOVE
--- Note: may want to look at how LspRestart works, as that is quite useful
--- https://github.com/neovim/nvim-lspconfig/blob/d3ad666b7895f958d088cceb6f6c199672c404fe/plugin/lspconfig.lua#L89
-local lspconfig = require("lspconfig")
-
--- See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#configurations
-lspconfig.ts_ls.setup({})
-lspconfig.eslint.setup({
-	on_attach = function(_, bufnr)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "EslintFixAll",
-		})
-	end,
-})
-lspconfig.lua_ls.setup({
-	-- stop the lua lsp complaining about calling `vim`
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	},
-})
-lspconfig.cssls.setup({})
-lspconfig.nixd.setup({})
 
 -- PLUGIN: vim-tmux-navigator
 vim.g.tmux_navigator_no_wrap = 1
