@@ -81,6 +81,8 @@ vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
 -- PLUGIN: nvim-lspconfig
 -- TODO: REMOVE
+-- Note: may want to look at how LspRestart works, as that is quite useful
+-- https://github.com/neovim/nvim-lspconfig/blob/d3ad666b7895f958d088cceb6f6c199672c404fe/plugin/lspconfig.lua#L89
 local lspconfig = require("lspconfig")
 
 -- See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#configurations
