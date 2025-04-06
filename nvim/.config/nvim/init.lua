@@ -116,13 +116,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "rounded",
-})
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = "rounded",
-})
-
 -- PLUGIN: vim-tmux-navigator
 vim.g.tmux_navigator_no_wrap = 1
 
@@ -270,6 +263,7 @@ end, {})
 
 -- SECTION: OPTIONS
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
+vim.o.winborder = "rounded"
 vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "80"
