@@ -131,9 +131,54 @@ vim.api.nvim_create_autocmd("filetype", {
 		vim.opt_local.cursorcolumn = false
 	end,
 })
+
+-- Keep these below 6 in length, just saves us checking long lines.
+local snippets_by_filetype = {
+	lua = {
+		fn = "function ${1:name}(${2:args})\n\t${0}\nend",
+	},
+	-- TODO handle all ecma file types in one entry
+	ecma = {},
+}
+
+vim.api.nvim_create_autocmd("filetype", {
+	pattern = "*",
+	callback = function()
+		local max_snippet_shortcut_length = 6
+		local snippets = snippets_by_filetype[vim.bo.filetype] or {}
+		if not snippets then
+			return
+		end
+
+		vim.keymap.set("i", "<Tab>", function()
+			if vim.snippet.active() then
+				return vim.snippet.jump(1)
+			end
+
+			local current_col_num = vim.fn.col(".") - 1
+			local current_line_content = vim.fn.getline(".")
+			local start_col = math.max(1, current_col_num - max_snippet_shortcut_length)
+			local target = current_line_content:sub(start_col, current_col_num)
+			local matched_trigger = target:match("!(%w+)$")
+
+			if not snippets[matched_trigger] then
+				return vim.api.nvim_feedkeys("\t", "n", false)
+			end
+
+			local new_content = current_line_content:sub(1, start_col + max_snippet_shortcut_length - #matched_trigger)
+				.. current_line_content:sub(start_col)
+			vim.api.nvim_set_current_line(new_content)
+			vim.schedule(function()
+				vim.snippet.expand(snippets[matched_trigger])
+			end)
+		end, { buffer = true })
+	end,
+})
+
 -- TODO move to snippets
 -- add abbreviations to these filetypes
 vim.api.nvim_create_autocmd("filetype", {
+	-- TODO extract all these filetypes to be ECMA
 	pattern = {
 		"javascript",
 		"javascriptreact",
@@ -145,15 +190,6 @@ vim.api.nvim_create_autocmd("filetype", {
 	callback = function()
 		vim.cmd("iab <buffer> tbitd toBeInTheDocument()")
 		vim.cmd("iab <buffer> fna () => {}")
-	end,
-})
--- Figyre this out as the test case
-vim.api.nvim_create_autocmd("filetype", {
-	pattern = { "lua" },
-	callback = function(ev)
-		vim.keymap.set("ia", "tester", function()
-			vim.snippet.expand("function ${1:name}($2)\n\t${3:-- content}\nend")
-		end, { buffer = ev.buf })
 	end,
 })
 
