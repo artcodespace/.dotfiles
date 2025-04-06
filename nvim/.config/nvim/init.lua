@@ -4,10 +4,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 
--- SECTION: PLUGIN CONFIGURATION AND KEYBINDINGS
--- PLUGIN: fzf
+-- SECTION: PLUGIN.FZF
 -- TODO: upgrade
 local fzf = require("fzf-lua")
 local function configure_finder(title, opts)
@@ -80,13 +78,13 @@ vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
--- PLUGIN: vim-tmux-navigator
+-- SECTION: PLUGIN.VIM-TMUX-NAVIGATOR
 vim.g.tmux_navigator_no_wrap = 1
 
--- PLUGIN: nvim-surround
+-- SECTION: PLUGIN.NVIM-SURROUND
 require("nvim-surround").setup()
 
--- PLUGIN: conform.nvim
+-- SECTION: PLUGIN.CONFORM
 require("conform").setup({
 	formatters_by_ft = {
 		javascript = { "prettierd" },
@@ -107,7 +105,7 @@ require("conform").setup({
 	},
 })
 
--- PLUGIN: nvim-treesitter
+-- SECTION: PLUGIN.NVIM-TREESITTER
 local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
 -- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
@@ -122,7 +120,28 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
--- SECTION: AUTOCOMMANDS
+-- SECTION: NVIM
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+vim.diagnostic.config({
+	severity_sort = true,
+	jump = { float = true },
+	signs = {
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
+			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
+		},
+	},
+})
+
+function WinBar()
+	local icon = vim.bo.modified and "" or ""
+	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
+	local error_string = has_errors and "▜▛▜▛▜▛" or ""
+	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
+end
+vim.opt.winbar = "%{%v:lua.WinBar()%}"
+
+-- SECTION: NVIM.AUTOCOMMANDS
 -- Start neovim with fzf open if no arguments passed
 vim.api.nvim_create_autocmd("VimEnter", {
 	pattern = "*",
@@ -195,7 +214,7 @@ vim.api.nvim_create_autocmd("filetype", {
 	end,
 })
 
--- SECTION: KEYBINDS
+-- SECTION: NVIM.KEYBINDS
 -- TODO this is sort of like "super escape". May want to look at a "super tab", depending
 -- on how snippets work, and it may be worthwhile due to the tab location (thumb cluster).
 vim.keymap.set("n", "<Esc>", function()
@@ -231,7 +250,7 @@ vim.api.nvim_create_user_command("Tsc", function()
 	vim.cmd("compiler tsc | echo 'Building TypeScript...' | silent make! --noEmit | echo 'TypeScript built.' | copen")
 end, {})
 
--- SECTION: OPTIONS
+-- SECTION: NVIM.OPTIONS
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
 vim.o.winborder = "rounded"
 vim.opt.breakindent = true
@@ -261,25 +280,6 @@ vim.opt.swapfile = false
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
-
-vim.diagnostic.config({
-	severity_sort = true,
-	jump = { float = true },
-	signs = {
-		numhl = {
-			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
-			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
-		},
-	},
-})
-
-function WinBar()
-	local icon = vim.bo.modified and "" or ""
-	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	local error_string = has_errors and "▜▛▜▛▜▛" or ""
-	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
-end
-vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
 -- SECTION: INITIALISE
 vim.opt.background = "dark"
