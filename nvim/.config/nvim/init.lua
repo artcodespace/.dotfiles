@@ -121,6 +121,13 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- SECTION: NVIM
+vim.lsp.config("*", {
+	on_attach = function(client)
+		if client.config.root_dir == nil then
+			client.stop(client, true)
+		end
+	end,
+})
 vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 vim.diagnostic.config({
 	severity_sort = true,
