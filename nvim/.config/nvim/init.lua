@@ -1,11 +1,9 @@
 -- SECTION: INTRO
--- This file is intentionally large to make it easier to maintain usability of
--- the exact same repo between both 'stow' and nix dotfile use cases.
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
--- SECTION: PLUGIN.FZF
+-- SECTION: PLUGINS
 local fzf = require("fzf-lua")
 fzf.setup({
 	keymap = {
@@ -44,13 +42,13 @@ vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
--- SECTION: PLUGIN.VIM-TMUX-NAVIGATOR
+-- PLUGINS.VIM-TMUX-NAVIGATOR
 vim.g.tmux_navigator_no_wrap = 1
 
--- SECTION: PLUGIN.NVIM-SURROUND
+-- PLUGINS.NVIM-SURROUND
 require("nvim-surround").setup()
 
--- SECTION: PLUGIN.CONFORM
+-- PLUGINS.CONFORM
 require("conform").setup({
 	formatters_by_ft = {
 		javascript = { "prettierd" },
@@ -71,11 +69,11 @@ require("conform").setup({
 	},
 })
 
--- SECTION: PLUGIN.NVIM-TREESITTER
-local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
+-- PLUGINS.NVIM-TREESITTER
 -- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
+local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
 
 require("nvim-treesitter.configs").setup({
 	parser_install_dir = parser_install_dir,
@@ -114,7 +112,7 @@ function WinBar()
 end
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
--- SECTION: NVIM.AUTOCOMMANDS
+-- NVIM.AUTOCOMMANDS
 -- Start neovim with fzf open if no arguments passed
 vim.api.nvim_create_autocmd("VimEnter", {
 	pattern = "*",
@@ -187,7 +185,7 @@ vim.api.nvim_create_autocmd("filetype", {
 	end,
 })
 
--- SECTION: NVIM.KEYBINDS
+-- NVIM.KEYBINDS
 -- TODO this is sort of like "super escape". May want to look at a "super tab", depending
 -- on how snippets work, and it may be worthwhile due to the tab location (thumb cluster).
 vim.keymap.set("n", "<Esc>", function()
@@ -223,9 +221,10 @@ vim.api.nvim_create_user_command("Tsc", function()
 	vim.cmd("compiler tsc | echo 'Building TypeScript...' | silent make! --noEmit | echo 'TypeScript built.' | copen")
 end, {})
 
--- SECTION: NVIM.OPTIONS
+-- NVIM.OPTIONS
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
 vim.o.winborder = "rounded"
+vim.opt.background = "dark"
 vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "80"
@@ -238,9 +237,7 @@ vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
 vim.opt.ruler = false
--- lots of TS projects use 2, may want an easy way to toggle this. Also, can set
--- to 0 to have it follow the tabstop value.
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 0 -- follow vim.opt.tabstop
 vim.opt.showcmd = false
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
@@ -250,10 +247,9 @@ vim.opt.softtabstop = 4
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
+-- TODO create way to toggle this easily, as lots of TS projects use 2.
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
 
--- SECTION: INITIALISE
-vim.opt.background = "dark"
 vim.cmd("colorscheme pax")
