@@ -73,8 +73,8 @@ vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>d", fzf.lsp_document_diagnostics)
 vim.keymap.set("n", "<leader>o", fzf.lsp_document_symbols)
 vim.keymap.set("n", "<leader>O", fzf.lsp_live_workspace_symbols)
-vim.keymap.set("n", "gr", fzf.lsp_references)
-vim.keymap.set("n", "gd", fzf.lsp_definitions)
+vim.keymap.set("n", "<leader>r", fzf.lsp_references)
+vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
@@ -191,6 +191,9 @@ vim.api.nvim_create_autocmd("filetype", {
 		vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", { remap = true, buffer = true })
 	end,
 })
+
+-- TODO extend this to handle loclist in the same way - if you use grr in 0.11, that
+-- populates the qf, but using gO (capital o) populates the loclist.
 -- What was previously in /after/ftplugin/qf.lua
 vim.api.nvim_create_autocmd("filetype", {
 	pattern = "qf",
