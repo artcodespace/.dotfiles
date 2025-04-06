@@ -1,7 +1,7 @@
 tmux has-session -t dotfiles
 
 if [ $? != 0 ]; then 
-# create the session in the .dotfiles folder
+    # create the session in the .dotfiles folder
     tmux new-session -s dotfiles -n dotfiles -c ~/.dotfiles -d "lazygit"
     tmux split-window -h -c ~/.dotfiles  "nvim ."
 fi
