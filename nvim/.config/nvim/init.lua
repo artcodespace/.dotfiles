@@ -40,6 +40,7 @@ vim.keymap.set("n", "<leader>O", fzf.lsp_live_workspace_symbols)
 vim.keymap.set("n", "<leader>r", fzf.lsp_references)
 vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
+vim.keymap.set("n", "<leader>k", fzf.keymaps)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
 -- PLUGINS.VIM-TMUX-NAVIGATOR
@@ -133,12 +134,29 @@ vim.api.nvim_create_autocmd("filetype", {
 -- TODO move to snippets
 -- add abbreviations to these filetypes
 vim.api.nvim_create_autocmd("filetype", {
-	pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+	pattern = {
+		"javascript",
+		"javascriptreact",
+		"javascript.jsx",
+		"typescript",
+		"typescriptreact",
+		"typescript.tsx",
+	},
 	callback = function()
 		vim.cmd("iab <buffer> tbitd toBeInTheDocument()")
 		vim.cmd("iab <buffer> fna () => {}")
 	end,
 })
+-- Figyre this out as the test case
+vim.api.nvim_create_autocmd("filetype", {
+	pattern = { "lua" },
+	callback = function(ev)
+		vim.keymap.set("ia", "tester", function()
+			vim.snippet.expand("function ${1:name}($2)\n\t${3:-- content}\nend")
+		end, { buffer = ev.buf })
+	end,
+})
+
 -- What was previously in /after/ftplugin/netrw.lua
 vim.api.nvim_create_autocmd("filetype", {
 	pattern = "netrw",
