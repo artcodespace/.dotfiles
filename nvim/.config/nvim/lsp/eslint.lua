@@ -1,5 +1,3 @@
--- eslint: -32603: Request textDocument/diagnostic failed with message: The "path" argument must be
---  of type string. Received undefined
 return {
 	cmd = { "vscode-eslint-language-server", "--stdio" },
 	filetypes = {
