@@ -221,7 +221,6 @@ vim.api.nvim_create_autocmd("filetype", {
 })
 
 -- SECTION: KEYBINDS
-local ERROR = { severity = vim.diagnostic.severity.ERROR }
 vim.keymap.set("n", "<Esc>", function()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
@@ -238,10 +237,10 @@ vim.keymap.set("n", "<Esc>", function()
 end, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
 vim.keymap.set("n", "[e", function()
-	vim.diagnostic.goto_prev(ERROR)
+	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 vim.keymap.set("n", "]e", function()
-	vim.diagnostic.goto_next(ERROR)
+	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 vim.keymap.set("i", "<C-j>", "<C-x><C-o>", { silent = true }) -- Lsp completion
 vim.api.nvim_create_user_command("Tsc", function()
