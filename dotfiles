@@ -2,8 +2,8 @@ tmux has-session -t dotfiles
 
 if [ $? != 0 ]; then 
     # create the session in the .dotfiles folder
-    tmux new-session -s dotfiles -n dotfiles -c ~/.dotfiles -d "lazygit"
-    tmux split-window -h -c ~/.dotfiles  "nvim ."
+    tmux new-session -s dotfiles -n git -c ~/.dotfiles -d "lazygit"
+    tmux new-window -n editor -c ~/.dotfiles "nvim ."
 fi
 
 tmux attach -t dotfiles
