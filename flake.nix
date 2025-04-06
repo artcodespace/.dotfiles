@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = inputs: let
@@ -24,6 +25,7 @@
       architecture,
     } @ system: let
       pkgs = inputs.nixpkgs.legacyPackages.${architecture};
+      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${architecture};
     in {
       default = pkgs.buildEnv {
         name = "dotfile-nix-profile-" + displayName;
@@ -34,7 +36,8 @@
             wezterm
             tmux
             starship
-            neovim
+            # EXPERIMENTAL - escape neovim to use unstable branch for 0.11
+            (unstablePkgs.neovim)
             fzf
             lazygit
             ripgrep
