@@ -7,9 +7,6 @@
 [submodule "nvim/.config/nvim/pack/plugins/start/fzf-lua"]
 	path = nvim/.config/nvim/pack/plugins/start/fzf-lua
 	url = https://github.com/ibhagwan/fzf-lua
-[submodule "nvim/.config/nvim/pack/plugins/start/nvim-lspconfig"]
-	path = nvim/.config/nvim/pack/plugins/start/nvim-lspconfig
-	url = https://github.com/neovim/nvim-lspconfig
 [submodule "nvim/.config/nvim/pack/plugins/start/vim-tmux-navigator"]
 	path = nvim/.config/nvim/pack/plugins/start/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator
