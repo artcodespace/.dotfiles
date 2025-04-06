@@ -165,6 +165,7 @@ vim.api.nvim_create_autocmd("filetype", {
 		vim.opt_local.cursorcolumn = false
 	end,
 })
+-- TODO move to snippets
 -- add abbreviations to these filetypes
 vim.api.nvim_create_autocmd("filetype", {
 	pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
