@@ -274,7 +274,9 @@ vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
 vim.opt.ruler = false
-vim.opt.shiftwidth = 4 -- lots of TS projects use 2, may want an easy way to toggle this
+-- lots of TS projects use 2, may want an easy way to toggle this. Also, can set
+-- to 0 to have it follow the tabstop value.
+vim.opt.shiftwidth = 4
 vim.opt.showcmd = false
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
