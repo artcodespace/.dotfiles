@@ -78,6 +78,7 @@ vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
+-- TODO remove nvim-lspconfig
 -- PLUGIN: nvim-lspconfig
 local lspconfig = require("lspconfig")
 
