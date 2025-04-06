@@ -79,7 +79,6 @@ vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
 -- PLUGIN: nvim-lspconfig
-require("lspconfig.ui.windows").default_options = { border = "rounded" }
 local lspconfig = require("lspconfig")
 
 -- See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#configurations
