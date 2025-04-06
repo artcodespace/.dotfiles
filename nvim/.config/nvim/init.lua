@@ -7,6 +7,7 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
 -- SECTION: PLUGIN CONFIGURATION AND KEYBINDINGS
 -- PLUGIN: fzf
+-- TODO: upgrade
 local fzf = require("fzf-lua")
 local function configure_finder(title, opts)
 	return vim.tbl_deep_extend("keep", opts or {}, {
@@ -78,8 +79,8 @@ vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
 
--- TODO remove nvim-lspconfig
 -- PLUGIN: nvim-lspconfig
+-- TODO: REMOVE
 local lspconfig = require("lspconfig")
 
 -- See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#configurations
@@ -221,6 +222,8 @@ vim.api.nvim_create_autocmd("filetype", {
 })
 
 -- SECTION: KEYBINDS
+-- TODO this is sort of like "super escape". May want to look at a "super tab", depending
+-- on how snippets work, and it may be worthwhile due to the tab location (thumb cluster).
 vim.keymap.set("n", "<Esc>", function()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
@@ -242,7 +245,10 @@ end, { silent = true })
 vim.keymap.set("n", "]e", function()
 	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
+-- TODO play around with this and vim.lsp.completion - this may allow us to get
+-- autoimport in TS!
 vim.keymap.set("i", "<C-j>", "<C-x><C-o>", { silent = true }) -- Lsp completion
+-- TODO look at why this does not work for olympus.
 vim.api.nvim_create_user_command("Tsc", function()
 	local ts_root = vim.fs.root(0, "tsconfig") -- may need updating in a TS proj at work
 	if ts_root == nil then
@@ -266,7 +272,7 @@ vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
 vim.opt.ruler = false
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 4 -- lots of TS projects use 2, may want an easy way to toggle this
 vim.opt.showcmd = false
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
