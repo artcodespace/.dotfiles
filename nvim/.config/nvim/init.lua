@@ -132,51 +132,72 @@ vim.api.nvim_create_autocmd("filetype", {
 	end,
 })
 
--- Keep these below 6 in length, just saves us checking long lines.
+-- Keep these below 6 in length to save us checking long lines.
+local ecma_snippets = {
+	fna = "(${1}) => {${2}}",
+	fnr = "function $1($2) {\n\treturn <div>${0}</div>\n}",
+}
 local snippets_by_filetype = {
 	lua = {
-		fn = "function ${1:name}(${2:args})\n\t${0}\nend",
+		fn = "function ${1}(${2})\n\t${0}\nend",
 	},
-	-- TODO handle all ecma file types in one entry
-	ecma = {},
+	javascript = ecma_snippets,
+	javascriptreact = ecma_snippets,
+	["javascript.jsx"] = ecma_snippets,
+	typescript = ecma_snippets,
+	typescriptreact = ecma_snippets,
+	["typescript.tsx"] = ecma_snippets,
 }
 
-vim.api.nvim_create_autocmd("filetype", {
+vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
 	callback = function()
 		local max_snippet_shortcut_length = 6
+		-- TODO could possibly not do the defaulting here and drop the next
 		local snippets = snippets_by_filetype[vim.bo.filetype] or {}
-		if not snippets then
+		if not next(snippets) then
 			return
 		end
 
-		vim.keymap.set("i", "<Tab>", function()
+		vim.keymap.set({ "i", "s" }, "<Tab>", function()
+			-- If inside a snippet, perform a forward jump.
 			if vim.snippet.active() then
-				return vim.snippet.jump(1)
+				return "<Cmd>lua vim.snippet.jump(1)<CR>"
 			end
 
-			local current_col_num = vim.fn.col(".") - 1
-			local current_line_content = vim.fn.getline(".")
-			local start_col = math.max(1, current_col_num - max_snippet_shortcut_length)
-			local target = current_line_content:sub(start_col, current_col_num)
+			-- Get the current location, content and try and match a trigger.
+			local col = vim.fn.col(".") - 1
+			local line = vim.fn.getline(".")
+			-- TODO change the logic here so we just walk back until we find a !,
+			-- that way we can do this in the middle of a line if necessary.
+			local start_col = math.max(1, col - max_snippet_shortcut_length)
+			local target = line:sub(start_col, col)
 			local matched_trigger = target:match("!(%w+)$")
 
-			if not snippets[matched_trigger] then
-				return vim.api.nvim_feedkeys("\t", "n", false)
+			-- If we have a match, expand.
+			if matched_trigger and snippets[matched_trigger] then
+				local before = line:sub(1, col):gsub("!" .. matched_trigger .. "$", "")
+				local after = line:sub(col + 1)
+				vim.schedule(function()
+					vim.api.nvim_set_current_line(before .. after)
+					vim.snippet.expand(snippets[matched_trigger])
+				end)
+				return ""
 			end
 
-			local new_content = current_line_content:sub(1, start_col + max_snippet_shortcut_length - #matched_trigger)
-				.. current_line_content:sub(start_col)
-			vim.api.nvim_set_current_line(new_content)
-			vim.schedule(function()
-				vim.snippet.expand(snippets[matched_trigger])
-			end)
-		end, { buffer = true })
+			-- If we have no match, insert a tab.
+			return "<Tab>"
+		end, { buffer = true, expr = true })
+
+		vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+			if vim.snippet.active() then
+				return "<Cmd>lua vim.snippet.jump(-1)<CR>"
+			end
+			return "<S-Tab>"
+		end, { buffer = true, expr = true })
 	end,
 })
 
--- TODO move to snippets
--- add abbreviations to these filetypes
 vim.api.nvim_create_autocmd("filetype", {
 	-- TODO extract all these filetypes to be ECMA
 	pattern = {
@@ -189,7 +210,6 @@ vim.api.nvim_create_autocmd("filetype", {
 	},
 	callback = function()
 		vim.cmd("iab <buffer> tbitd toBeInTheDocument()")
-		vim.cmd("iab <buffer> fna () => {}")
 	end,
 })
 
