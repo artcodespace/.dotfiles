@@ -93,6 +93,34 @@ vim.lsp.config("*", {
 		end
 	end,
 })
+vim.lsp.config("eslint", {
+	on_attach = function(client, bufnr)
+		if client.config.root_dir == nil then
+			client.stop(client, true)
+		end
+
+		local base_on_attach = vim.lsp.config.eslint.on_attach
+		if not base_on_attach then
+			return
+		end
+
+		base_on_attach(client, bufnr)
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			command = "LspEslintFixAll",
+		})
+	end,
+})
+-- TODO investigate the better fix here using .luarc
+vim.lsp.config("lua_ls", {
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { vim },
+			},
+		},
+	},
+})
 vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 vim.diagnostic.config({
 	severity_sort = true,
