@@ -35,10 +35,6 @@ fzf.setup({
 
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
-vim.keymap.set("n", "<leader>o", fzf.lsp_document_symbols)
-vim.keymap.set("n", "<leader>O", fzf.lsp_live_workspace_symbols)
-vim.keymap.set("n", "<leader>r", fzf.lsp_references)
-vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader>k", fzf.keymaps)
 vim.keymap.set("n", "<leader><leader>", fzf.resume)
@@ -65,7 +61,6 @@ require("conform").setup({
 		nix = { "alejandra" },
 	},
 	format_on_save = {
-		lsp_fallback = true,
 		timeout_ms = 500,
 	},
 })
@@ -85,59 +80,9 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
--- SECTION: NVIM
-vim.lsp.config("*", {
-	on_attach = function(client)
-		if client.config.root_dir == nil then
-			client.stop(client, true)
-		end
-	end,
-})
-vim.lsp.config("eslint", {
-	on_attach = function(client, bufnr)
-		if client.config.root_dir == nil then
-			client.stop(client, true)
-		end
-
-		local base_on_attach = vim.lsp.config.eslint.on_attach
-		if not base_on_attach then
-			return
-		end
-
-		base_on_attach(client, bufnr)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "LspEslintFixAll",
-		})
-	end,
-})
--- TODO investigate the better fix here using .luarc
-vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { vim },
-			},
-		},
-	},
-})
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
-vim.diagnostic.config({
-	severity_sort = true,
-	jump = { float = true },
-	signs = {
-		numhl = {
-			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
-			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
-		},
-	},
-})
-
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
-	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	local error_string = has_errors and "▜▛▜▛▜▛" or ""
-	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
+	return "%*%=%#Normal# " .. icon .. " %t %*%="
 end
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
@@ -157,87 +102,6 @@ vim.api.nvim_create_autocmd("filetype", {
 	callback = function()
 		vim.opt_local.colorcolumn = ""
 		vim.opt_local.cursorcolumn = false
-	end,
-})
-
--- Keep these below 6 in length to save us checking long lines.
-local ecma_snippets = {
-	fna = "(${1}) => {${2}}",
-	fnr = "function $1($2) {\n\treturn <div>${0}</div>\n}",
-}
-local snippets_by_filetype = {
-	lua = {
-		fn = "function ${1}(${2})\n\t${0}\nend",
-	},
-	javascript = ecma_snippets,
-	javascriptreact = ecma_snippets,
-	["javascript.jsx"] = ecma_snippets,
-	typescript = ecma_snippets,
-	typescriptreact = ecma_snippets,
-	["typescript.tsx"] = ecma_snippets,
-}
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "*",
-	callback = function()
-		local max_snippet_shortcut_length = 6
-		-- TODO could possibly not do the defaulting here and drop the next
-		local snippets = snippets_by_filetype[vim.bo.filetype] or {}
-		if not next(snippets) then
-			return
-		end
-
-		vim.keymap.set({ "i", "s" }, "<Tab>", function()
-			-- If inside a snippet, perform a forward jump.
-			if vim.snippet.active() then
-				return "<Cmd>lua vim.snippet.jump(1)<CR>"
-			end
-
-			-- Get the current location, content and try and match a trigger.
-			local col = vim.fn.col(".") - 1
-			local line = vim.fn.getline(".")
-			-- TODO change the logic here so we just walk back until we find a !,
-			-- that way we can do this in the middle of a line if necessary.
-			local start_col = math.max(1, col - max_snippet_shortcut_length)
-			local target = line:sub(start_col, col)
-			local matched_trigger = target:match("!(%w+)$")
-
-			-- If we have a match, expand.
-			if matched_trigger and snippets[matched_trigger] then
-				local before = line:sub(1, col):gsub("!" .. matched_trigger .. "$", "")
-				local after = line:sub(col + 1)
-				vim.schedule(function()
-					vim.api.nvim_set_current_line(before .. after)
-					vim.snippet.expand(snippets[matched_trigger])
-				end)
-				return ""
-			end
-
-			-- If we have no match, insert a tab.
-			return "<Tab>"
-		end, { buffer = true, expr = true })
-
-		vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
-			if vim.snippet.active() then
-				return "<Cmd>lua vim.snippet.jump(-1)<CR>"
-			end
-			return "<S-Tab>"
-		end, { buffer = true, expr = true })
-	end,
-})
-
-vim.api.nvim_create_autocmd("filetype", {
-	-- TODO extract all these filetypes to be ECMA
-	pattern = {
-		"javascript",
-		"javascriptreact",
-		"javascript.jsx",
-		"typescript",
-		"typescriptreact",
-		"typescript.tsx",
-	},
-	callback = function()
-		vim.cmd("iab <buffer> tbitd toBeInTheDocument()")
 	end,
 })
 
@@ -288,8 +152,6 @@ vim.api.nvim_create_autocmd("filetype", {
 })
 
 -- NVIM.KEYBINDS
--- TODO this is sort of like "super escape". May want to look at a "super tab", depending
--- on how snippets work, and it may be worthwhile due to the tab location (thumb cluster).
 vim.keymap.set("n", "<Esc>", function()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
@@ -305,23 +167,6 @@ vim.keymap.set("n", "<Esc>", function()
 	end
 end, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
-vim.keymap.set("n", "[e", function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, { silent = true })
-vim.keymap.set("n", "]e", function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, { silent = true })
--- TODO play around with this and vim.lsp.completion - this may allow us to get
--- autoimport in TS!
-vim.keymap.set("i", "<C-j>", "<C-x><C-o>", { silent = true }) -- Lsp completion
--- TODO look at why this does not work for olympus.
-vim.api.nvim_create_user_command("Tsc", function()
-	local ts_root = vim.fs.root(0, "tsconfig") -- may need updating in a TS proj at work
-	if ts_root == nil then
-		return print("Unable to find tsconfig")
-	end
-	vim.cmd("compiler tsc | echo 'Building TypeScript...' | silent make! --noEmit | echo 'TypeScript built.' | copen")
-end, {})
 
 -- NVIM.OPTIONS
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
