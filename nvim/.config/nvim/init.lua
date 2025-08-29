@@ -6,14 +6,6 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 -- SECTION: PLUGINS
 local fzf = require("fzf-lua")
 fzf.setup({
-	keymap = {
-		builtin = {
-			["<C-d>"] = "preview-page-down",
-			["<C-u>"] = "preview-page-up",
-		},
-	},
-	files = { cwd_prompt = false },
-	lsp = { jump_to_single_result = true },
 	fzf_colors = {
 		["fg"] = { "fg", { "Comment" } },
 		["hl"] = { "fg", { "Normal" } },
@@ -30,14 +22,46 @@ fzf.setup({
 		["marker"] = { "fg", { "Pmenu" } },
 		["header"] = { "fg", { "Normal" } },
 	},
-	grep = { rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e" },
+	keymap = {
+		builtin = {
+			["<C-d>"] = "preview-page-down",
+			["<C-u>"] = "preview-page-up",
+		},
+	},
+	files = {
+		cwd_prompt = false,
+		winopts = {
+			height = 7,
+			width = 0.5,
+			row = 2,
+			col = 1,
+			preview = { hidden = true },
+			title_pos = "left",
+			title_flags = false,
+		},
+	},
+	grep = {
+		rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e",
+		winopts = {
+			split = "belowright new",
+			title_pos = "left",
+			title_flags = false,
+			preview = { wrap = true },
+		},
+	},
+	helptags = {
+		winopts = {
+			split = "belowright new",
+			title_pos = "left",
+			title_flags = false,
+		},
+	},
 })
 
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
-vim.keymap.set("n", "<leader>k", fzf.keymaps)
-vim.keymap.set("n", "<leader><leader>", fzf.resume)
+vim.keymap.set("n", "<leader>o", fzf.treesitter)
 
 -- PLUGINS.VIM-TMUX-NAVIGATOR
 vim.g.tmux_navigator_no_wrap = 1
@@ -80,12 +104,6 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
-function WinBar()
-	local icon = vim.bo.modified and "" or ""
-	return "%*%=%#Normal# " .. icon .. " %t %*%="
-end
-vim.opt.winbar = "%{%v:lua.WinBar()%}"
-
 -- NVIM.AUTOCOMMANDS
 -- Start neovim with fzf open if no arguments passed
 vim.api.nvim_create_autocmd("VimEnter", {
@@ -124,8 +142,7 @@ vim.api.nvim_create_autocmd("filetype", {
 	end,
 })
 
--- TODO extend this to handle loclist in the same way - if you use grr in 0.11, that
--- populates the qf, but using gO (capital o) populates the loclist.
+-- TODO extend this to handle loclist - grr does qflist in 0.11, gO populates loclist
 -- What was previously in /after/ftplugin/qf.lua
 vim.api.nvim_create_autocmd("filetype", {
 	pattern = "qf",
@@ -198,5 +215,10 @@ vim.opt.swapfile = false
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
+function WinBar()
+	local icon = vim.bo.modified and "" or ""
+	return "%*%=%#Normal# " .. icon .. " %t %*%="
+end
+vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
 vim.cmd("colorscheme pax")
