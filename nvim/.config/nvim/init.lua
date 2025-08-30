@@ -10,20 +10,11 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 local fzf = require("fzf-lua")
 fzf.setup({
 	fzf_colors = {
+		true, -- take the base inferred colors, apply following overrides
 		["fg"] = { "fg", { "Comment" } },
-		["hl"] = { "fg", { "Normal" } },
 		["fg+"] = { "fg", { "PmenuSel" } },
 		["bg+"] = { "bg", { "PmenuSel" } },
-		["gutter"] = "-1",
 		["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" },
-		["query"] = { "fg", { "Cursor" } },
-		["info"] = { "fg", { "Comment" } },
-		["border"] = { "fg", { "Normal" } },
-		["separator"] = { "fg", { "Comment" } },
-		["prompt"] = { "fg", { "Normal" } },
-		["pointer"] = { "fg", { "PmenuSel" } },
-		["marker"] = { "fg", { "Pmenu" } },
-		["header"] = { "fg", { "Normal" } },
 	},
 	keymap = {
 		builtin = {
@@ -31,36 +22,8 @@ fzf.setup({
 			["<C-u>"] = "preview-page-up",
 		},
 	},
-	files = {
-		cwd_prompt = false,
-		winopts = {
-			height = 7,
-			width = 0.3,
-			row = 2,
-			col = 1,
-			preview = { hidden = true },
-			title_pos = "left",
-			title_flags = false,
-		},
-	},
 	grep = {
-		rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e",
-		winopts = {
-			split = "belowright new",
-			title_flags = false,
-			preview = { wrap = true },
-		},
-	},
-	helptags = {
-		winopts = {
-			split = "belowright new",
-			title_flags = false,
-			preview = {
-				wrap = true,
-				layout = "horizontal",
-				horizontal = "right:70%",
-			},
-		},
+		rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096",
 	},
 })
 
@@ -124,16 +87,18 @@ vim.api.nvim_create_autocmd("filetype", {
 		vim.opt_local.cursorcolumn = false
 	end,
 })
+
+-- ## NVIM.NETRW see https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 30
 vim.g.netrw_altfile = 1 -- make <C-6> go back to prev file, not netrw
 vim.g.netrw_localcopydircmd = "cp -r" -- allow whole folder copying
+function NetrwWinBar()
+	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
+end
 vim.api.nvim_create_autocmd("filetype", {
-	pattern = "netrw", -- netrw configuration, see https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
+	pattern = "netrw",
 	callback = function()
-		function NetrwWinBar()
-			return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
-		end
 		vim.opt_local.winbar = "%{%v:lua.NetrwWinBar()%}"
 		vim.keymap.set("n", "h", "-", { remap = true, buffer = true })
 		vim.keymap.set("n", "l", "<cr>", { remap = true, buffer = true })
