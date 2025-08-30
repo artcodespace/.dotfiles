@@ -1,6 +1,7 @@
 -- ## TODOS
 -- create a way to toggle all of the relevant tab settings to move between 2/4 widths
 -- create a supertab for moving through the qf list
+-- fix the hl+ hl group not working!
 -- ## INTRO
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -9,7 +10,7 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 fzf.setup({
-	fzf_colors = true,
+	fzf_colors = { true, ["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" } },
 	keymap = {
 		builtin = {
 			["<C-d>"] = "preview-page-down",
