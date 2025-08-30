@@ -9,13 +9,7 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 fzf.setup({
-	fzf_colors = {
-		true, -- take the base inferred colors, apply following overrides
-		["fg"] = { "fg", { "Comment" } },
-		["fg+"] = { "fg", { "PmenuSel" } },
-		["bg+"] = { "bg", { "PmenuSel" } },
-		["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" },
-	},
+	fzf_colors = true,
 	keymap = {
 		builtin = {
 			["<C-d>"] = "preview-page-down",
@@ -31,6 +25,7 @@ vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader>o", fzf.treesitter)
+vim.keymap.set("n", "<leader>c", fzf.highlights)
 
 -- ## PLUGINS.CONFORM
 require("conform").setup({
