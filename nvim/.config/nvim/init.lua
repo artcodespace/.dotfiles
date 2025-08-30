@@ -32,7 +32,7 @@ fzf.setup({
 		cwd_prompt = false,
 		winopts = {
 			height = 7,
-			width = 0.5,
+			width = 0.3,
 			row = 2,
 			col = 1,
 			preview = { hidden = true },
@@ -44,7 +44,6 @@ fzf.setup({
 		rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e",
 		winopts = {
 			split = "belowright new",
-			title_pos = "left",
 			title_flags = false,
 			preview = { wrap = true },
 		},
@@ -52,8 +51,12 @@ fzf.setup({
 	helptags = {
 		winopts = {
 			split = "belowright new",
-			title_pos = "left",
 			title_flags = false,
+			preview = {
+				wrap = true,
+				layout = "horizontal",
+				horizontal = "right:70%",
+			},
 		},
 	},
 })
