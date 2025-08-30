@@ -1,9 +1,12 @@
--- SECTION: INTRO
+-- ## TODOS
+-- create a way to toggle all of the relevant tab settings to move between 2/4 widths
+-- create a supertab for moving through the qf list
+-- ## INTRO
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
--- SECTION: PLUGINS
+-- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 fzf.setup({
 	fzf_colors = {
@@ -66,13 +69,7 @@ vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader>o", fzf.treesitter)
 
--- PLUGINS.VIM-TMUX-NAVIGATOR
-vim.g.tmux_navigator_no_wrap = 1
-
--- PLUGINS.NVIM-SURROUND
-require("nvim-surround").setup()
-
--- PLUGINS.CONFORM
+-- ## PLUGINS.CONFORM
 require("conform").setup({
 	formatters_by_ft = {
 		javascript = { "prettierd" },
@@ -92,7 +89,7 @@ require("conform").setup({
 	},
 })
 
--- PLUGINS.NVIM-TREESITTER
+-- ## PLUGINS.NVIM-TREESITTER
 -- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
@@ -107,34 +104,33 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
--- NVIM.AUTOCOMMANDS
--- Start neovim with fzf open if no arguments passed
+-- ## PLUGINS.VIM-TMUX-NAVIGATOR && PLUGINS.NVIM-SURROUND
+vim.g.tmux_navigator_no_wrap = 1
+require("nvim-surround").setup()
+
+-- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("VimEnter", {
 	pattern = "*",
 	callback = function()
 		if next(vim.fn.argv()) == nil then
-			require("fzf-lua").files()
+			require("fzf-lua").files() -- open fzf if started with no args
 		end
 	end,
 })
--- Don't show columns in these filetypes
 vim.api.nvim_create_autocmd("filetype", {
-	pattern = { "netrw", "qf", "help" },
+	pattern = { "netrw", "qf", "help" }, -- no visual columns in these files
 	callback = function()
 		vim.opt_local.colorcolumn = ""
 		vim.opt_local.cursorcolumn = false
 	end,
 })
-
--- What was previously in /after/ftplugin/netrw.lua
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 30
+vim.g.netrw_altfile = 1 -- make <C-6> go back to prev file, not netrw
+vim.g.netrw_localcopydircmd = "cp -r" -- allow whole folder copying
 vim.api.nvim_create_autocmd("filetype", {
-	pattern = "netrw",
+	pattern = "netrw", -- netrw configuration, see https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 	callback = function()
-		-- https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
-		vim.g.netrw_banner = 0
-		vim.g.netrw_winsize = 30
-		vim.g.netrw_altfile = 1 -- make <C-6> go back to prev file, not netrw
-		vim.g.netrw_localcopydircmd = "cp -r" -- allow whole folder copying
 		function NetrwWinBar()
 			return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
 		end
@@ -145,33 +141,7 @@ vim.api.nvim_create_autocmd("filetype", {
 	end,
 })
 
--- TODO extend this to handle loclist - grr does qflist in 0.11, gO populates loclist
--- What was previously in /after/ftplugin/qf.lua
-vim.api.nvim_create_autocmd("filetype", {
-	pattern = "qf",
-	callback = function()
-		vim.keymap.set("n", "<C-n>", "<cmd>cnext | wincmd p<cr>", { remap = true, buffer = true })
-		vim.keymap.set("n", "<C-p>", "<cmd>cprev | wincmd p<cr>", { remap = true, buffer = true })
-		vim.keymap.set("n", "x", function()
-			-- use x to filter __highlighted__ entries from the qf list
-			local qf = vim.fn.getqflist({ idx = 0, items = 0 })
-			local current_idx = qf.idx
-
-			local new_qf_list = {}
-
-			for k, v in pairs(qf.items) do
-				if k ~= current_idx then
-					table.insert(new_qf_list, v)
-				end
-			end
-
-			vim.fn.setqflist(new_qf_list)
-		end, { remap = true, buffer = true })
-		vim.cmd("wincmd K")
-	end,
-})
-
--- NVIM.KEYBINDS
+-- ## NVIM.KEYBINDS
 vim.keymap.set("n", "<Esc>", function()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
@@ -188,7 +158,7 @@ vim.keymap.set("n", "<Esc>", function()
 end, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
 
--- NVIM.OPTIONS
+-- ## NVIM.OPTIONS
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
 vim.o.winborder = "rounded"
 vim.opt.background = "dark"
@@ -214,7 +184,6 @@ vim.opt.softtabstop = 4
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
--- TODO create way to toggle this easily, as lots of TS projects use 2.
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
