@@ -1,7 +1,8 @@
 -- ## TODOS
 -- create a way to toggle all of the relevant tab settings to move between 2/4 widths
 -- create a supertab for moving through the qf list
--- fix the hl+ hl group not working!
+-- fix the hl+ hl group not working in the pax theme!
+
 -- ## INTRO
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -26,7 +27,6 @@ vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
 vim.keymap.set("n", "<leader>o", fzf.treesitter)
-vim.keymap.set("n", "<leader>c", fzf.highlights)
 
 -- ## PLUGINS.CONFORM
 require("conform").setup({
@@ -69,14 +69,13 @@ require("nvim-surround").setup()
 
 -- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("VimEnter", {
-	pattern = "*",
 	callback = function()
 		if next(vim.fn.argv()) == nil then
 			require("fzf-lua").files() -- open fzf if started with no args
 		end
 	end,
 })
-vim.api.nvim_create_autocmd("filetype", {
+vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "netrw", "qf", "help" }, -- no visual columns in these files
 	callback = function()
 		vim.opt_local.colorcolumn = ""
@@ -92,7 +91,7 @@ vim.g.netrw_localcopydircmd = "cp -r" -- allow whole folder copying
 function NetrwWinBar()
 	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
 end
-vim.api.nvim_create_autocmd("filetype", {
+vim.api.nvim_create_autocmd("FileType", {
 	pattern = "netrw",
 	callback = function()
 		vim.opt_local.winbar = "%{%v:lua.NetrwWinBar()%}"
@@ -103,7 +102,7 @@ vim.api.nvim_create_autocmd("filetype", {
 })
 
 -- ## NVIM.KEYBINDS
-vim.keymap.set("n", "<Esc>", function()
+local function super_escape()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
 	local is_qf_or_help = filetype == "qf" or filetype == "help"
@@ -116,27 +115,26 @@ vim.keymap.set("n", "<Esc>", function()
 	elseif is_netrw then
 		vim.cmd("Rex")
 	end
-end, { silent = true })
+end
+vim.keymap.set("n", "<Esc>", super_escape, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
 
 -- ## NVIM.OPTIONS
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
 vim.o.winborder = "rounded"
-vim.opt.background = "dark"
 vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "80"
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 vim.opt.expandtab = true
-vim.opt.fillchars = { eob = " ", wbr = "▀", vert = "█" } -- see unicode block
+vim.opt.fillchars = { wbr = "▀", vert = "█" } -- see unicode block
 vim.opt.ignorecase = true
 vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
 vim.opt.ruler = false
 vim.opt.shiftwidth = 0 -- follow vim.opt.tabstop
-vim.opt.showcmd = false
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
 vim.opt.smartcase = true
