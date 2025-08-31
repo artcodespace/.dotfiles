@@ -1,5 +1,6 @@
 -- ## TODOS
 -- fix the hl+ hl group not working in the pax theme!
+-- add the ability to start neovim with/without lsp using a flag
 
 -- ## INTRO
 vim.g.mapleader = " "
@@ -100,13 +101,13 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- ## NVIM.KEYBINDS
-function SetTabSize(size)
+function SetTabSize(size) -- number | nil
 	size = size or 4
 	vim.opt.tabstop = size
 	vim.opt.shiftwidth = size
 	vim.opt.softtabstop = size
 end
-local function super_tab(direction) -- "next" / "previous"
+local function super_tab(direction) -- "next" | "previous"
 	if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
 		return "<cmd>" .. "c" .. direction .. "<CR>"
 	end
