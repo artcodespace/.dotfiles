@@ -16,3 +16,6 @@
 [submodule "nvim/.config/nvim/pack/plugins/start/nvim-treesitter"]
 	path = nvim/.config/nvim/pack/plugins/start/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter
+[submodule "nvim/.config/nvim/pack/plugins/start/nvim-lspconfig"]
+	path = nvim/.config/nvim/pack/plugins/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig
