@@ -1,6 +1,4 @@
 -- ## TODOS
--- create a way to toggle all of the relevant tab settings to move between 2/4 widths
--- create a supertab for moving through the qf list
 -- fix the hl+ hl group not working in the pax theme!
 
 -- ## INTRO
@@ -102,6 +100,19 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- ## NVIM.KEYBINDS
+function SetTabSize(size)
+	size = size or 4
+	vim.opt.tabstop = size
+	vim.opt.shiftwidth = size
+	vim.opt.softtabstop = size
+end
+local function super_tab(direction) -- "next" / "previous"
+	if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+		return "<cmd>" .. "c" .. direction .. "<CR>"
+	end
+
+	return direction == "next" and "<Tab>" or "<S-Tab>"
+end
 local function super_escape()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
@@ -118,8 +129,16 @@ local function super_escape()
 end
 vim.keymap.set("n", "<Esc>", super_escape, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
+vim.keymap.set("n", "<leader>t", [[:lua SetTabSize()<Left>]], { noremap = true })
+vim.keymap.set("n", "<Tab>", function()
+	return super_tab("next")
+end, { noremap = true, expr = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", function()
+	return super_tab("previous")
+end, { noremap = true, expr = true, silent = true })
 
 -- ## NVIM.OPTIONS
+SetTabSize()
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
 vim.o.winborder = "rounded"
 vim.opt.breakindent = true
@@ -134,22 +153,20 @@ vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
 vim.opt.ruler = false
-vim.opt.shiftwidth = 0 -- follow vim.opt.tabstop
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
 vim.opt.smartcase = true
 vim.opt.smartindent = true
-vim.opt.softtabstop = 4
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
-vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
 	return "%*%=%#Normal# " .. icon .. " %t %*%="
 end
+
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
 vim.cmd("colorscheme pax")
