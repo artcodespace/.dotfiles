@@ -69,8 +69,8 @@ require("nvim-surround").setup()
 -- ## NVIM.LSP
 vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 -- TODO >>> add a function to turn off and disable all clients, or alternatively
--- start with them off and add a function to turn them all _on_
-
+-- start with them off and add a function to turn them all _on_.
+-- ALSO >>> sort out the lua rc file so that we get completion!
 -- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
