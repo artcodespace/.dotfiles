@@ -3,7 +3,7 @@
 -- add the ability to start neovim with/without lsp using a flag -- see line 71
 
 -- ## INTRO
-vim.g.vim.g.mapleader = " "
+vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
@@ -66,11 +66,10 @@ require("nvim-treesitter.configs").setup({
 vim.g.tmux_navigator_no_wrap = 1
 require("nvim-surround").setup()
 
--- ## NVIM.LSP
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+-- ## NVIM.LSP >>> for now just don't enable by default!
+-- vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 -- TODO >>> add a function to turn off and disable all clients, or alternatively
 -- start with them off and add a function to turn them all _on_.
--- ALSO >>> sort out the lua rc file so that we get completion!
 -- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
