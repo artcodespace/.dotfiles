@@ -1,55 +1,33 @@
--- SECTION: INTRO
+-- ## TODOS
+-- fix the hl+ hl group not working in the pax theme!
+-- add the ability to start neovim with/without lsp using a flag -- see line 71
+
+-- ## INTRO
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
--- SECTION: PLUGINS
+-- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 fzf.setup({
+	fzf_colors = { true, ["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" } },
 	keymap = {
 		builtin = {
 			["<C-d>"] = "preview-page-down",
 			["<C-u>"] = "preview-page-up",
 		},
 	},
-	files = { cwd_prompt = false },
-	lsp = { jump_to_single_result = true },
-	fzf_colors = {
-		["fg"] = { "fg", { "Comment" } },
-		["hl"] = { "fg", { "Normal" } },
-		["fg+"] = { "fg", { "PmenuSel" } },
-		["bg+"] = { "bg", { "PmenuSel" } },
-		["gutter"] = "-1",
-		["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" },
-		["query"] = { "fg", { "Cursor" } },
-		["info"] = { "fg", { "Comment" } },
-		["border"] = { "fg", { "Normal" } },
-		["separator"] = { "fg", { "Comment" } },
-		["prompt"] = { "fg", { "Normal" } },
-		["pointer"] = { "fg", { "PmenuSel" } },
-		["marker"] = { "fg", { "Pmenu" } },
-		["header"] = { "fg", { "Normal" } },
+	grep = {
+		rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096",
 	},
-	grep = { rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e" },
 })
 
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
-vim.keymap.set("n", "<leader>o", fzf.lsp_document_symbols)
-vim.keymap.set("n", "<leader>O", fzf.lsp_live_workspace_symbols)
-vim.keymap.set("n", "<leader>r", fzf.lsp_references)
-vim.keymap.set("n", "<leader>d", fzf.lsp_definitions)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
-vim.keymap.set("n", "<leader>k", fzf.keymaps)
-vim.keymap.set("n", "<leader><leader>", fzf.resume)
+vim.keymap.set("n", "<leader>o", fzf.treesitter)
 
--- PLUGINS.VIM-TMUX-NAVIGATOR
-vim.g.tmux_navigator_no_wrap = 1
-
--- PLUGINS.NVIM-SURROUND
-require("nvim-surround").setup()
-
--- PLUGINS.CONFORM
+-- ## PLUGINS.CONFORM
 require("conform").setup({
 	formatters_by_ft = {
 		javascript = { "prettierd" },
@@ -65,12 +43,11 @@ require("conform").setup({
 		nix = { "alejandra" },
 	},
 	format_on_save = {
-		lsp_fallback = true,
 		timeout_ms = 500,
 	},
 })
 
--- PLUGINS.NVIM-TREESITTER
+-- ## PLUGINS.NVIM-TREESITTER
 -- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
@@ -85,174 +62,41 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
--- SECTION: NVIM
-vim.lsp.config("*", {
-	on_attach = function(client)
-		if client.config.root_dir == nil then
-			client.stop(client, true)
-		end
-	end,
-})
-vim.lsp.config("eslint", {
-	on_attach = function(client, bufnr)
-		if client.config.root_dir == nil then
-			client.stop(client, true)
-		end
+-- ## PLUGINS.VIM-TMUX-NAVIGATOR && PLUGINS.NVIM-SURROUND
+vim.g.tmux_navigator_no_wrap = 1
+require("nvim-surround").setup()
 
-		local base_on_attach = vim.lsp.config.eslint.on_attach
-		if not base_on_attach then
-			return
-		end
-
-		base_on_attach(client, bufnr)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "LspEslintFixAll",
-		})
-	end,
-})
--- TODO investigate the better fix here using .luarc
-vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { vim },
-			},
-		},
-	},
-})
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
-vim.diagnostic.config({
-	severity_sort = true,
-	jump = { float = true },
-	signs = {
-		numhl = {
-			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
-			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
-		},
-	},
-})
-
-function WinBar()
-	local icon = vim.bo.modified and "" or ""
-	local has_errors = vim.diagnostic.count(0)[vim.diagnostic.severity.ERROR] or 0 > 0
-	local error_string = has_errors and "▜▛▜▛▜▛" or ""
-	return error_string .. "%*%=%#Normal# " .. icon .. " %t %*%=" .. error_string
-end
-vim.opt.winbar = "%{%v:lua.WinBar()%}"
-
--- NVIM.AUTOCOMMANDS
--- Start neovim with fzf open if no arguments passed
+-- ## NVIM.LSP >>> for now just don't enable by default!
+-- vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+-- TODO >>> add a function to turn off and disable all clients, or alternatively
+-- start with them off and add a function to turn them all _on_.
+-- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("VimEnter", {
-	pattern = "*",
 	callback = function()
 		if next(vim.fn.argv()) == nil then
-			require("fzf-lua").files()
+			require("fzf-lua").files() -- open fzf if started with no args
 		end
 	end,
 })
--- Don't show columns in these filetypes
-vim.api.nvim_create_autocmd("filetype", {
-	pattern = { "netrw", "qf", "help" },
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "netrw", "qf", "help" }, -- no visual columns in these files
 	callback = function()
 		vim.opt_local.colorcolumn = ""
 		vim.opt_local.cursorcolumn = false
 	end,
 })
 
--- Keep these below 6 in length to save us checking long lines.
-local ecma_snippets = {
-	fna = "(${1}) => {${2}}",
-	fnr = "function $1($2) {\n\treturn <div>${0}</div>\n}",
-}
-local snippets_by_filetype = {
-	lua = {
-		fn = "function ${1}(${2})\n\t${0}\nend",
-	},
-	javascript = ecma_snippets,
-	javascriptreact = ecma_snippets,
-	["javascript.jsx"] = ecma_snippets,
-	typescript = ecma_snippets,
-	typescriptreact = ecma_snippets,
-	["typescript.tsx"] = ecma_snippets,
-}
-
+-- ## NVIM.NETRW see https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 30
+vim.g.netrw_altfile = 1 -- make <C-6> go back to prev file, not netrw
+vim.g.netrw_localcopydircmd = "cp -r" -- allow whole folder copying
+function NetrwWinBar()
+	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
+end
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "*",
-	callback = function()
-		local max_snippet_shortcut_length = 6
-		-- TODO could possibly not do the defaulting here and drop the next
-		local snippets = snippets_by_filetype[vim.bo.filetype] or {}
-		if not next(snippets) then
-			return
-		end
-
-		vim.keymap.set({ "i", "s" }, "<Tab>", function()
-			-- If inside a snippet, perform a forward jump.
-			if vim.snippet.active() then
-				return "<Cmd>lua vim.snippet.jump(1)<CR>"
-			end
-
-			-- Get the current location, content and try and match a trigger.
-			local col = vim.fn.col(".") - 1
-			local line = vim.fn.getline(".")
-			-- TODO change the logic here so we just walk back until we find a !,
-			-- that way we can do this in the middle of a line if necessary.
-			local start_col = math.max(1, col - max_snippet_shortcut_length)
-			local target = line:sub(start_col, col)
-			local matched_trigger = target:match("!(%w+)$")
-
-			-- If we have a match, expand.
-			if matched_trigger and snippets[matched_trigger] then
-				local before = line:sub(1, col):gsub("!" .. matched_trigger .. "$", "")
-				local after = line:sub(col + 1)
-				vim.schedule(function()
-					vim.api.nvim_set_current_line(before .. after)
-					vim.snippet.expand(snippets[matched_trigger])
-				end)
-				return ""
-			end
-
-			-- If we have no match, insert a tab.
-			return "<Tab>"
-		end, { buffer = true, expr = true })
-
-		vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
-			if vim.snippet.active() then
-				return "<Cmd>lua vim.snippet.jump(-1)<CR>"
-			end
-			return "<S-Tab>"
-		end, { buffer = true, expr = true })
-	end,
-})
-
-vim.api.nvim_create_autocmd("filetype", {
-	-- TODO extract all these filetypes to be ECMA
-	pattern = {
-		"javascript",
-		"javascriptreact",
-		"javascript.jsx",
-		"typescript",
-		"typescriptreact",
-		"typescript.tsx",
-	},
-	callback = function()
-		vim.cmd("iab <buffer> tbitd toBeInTheDocument()")
-	end,
-})
-
--- What was previously in /after/ftplugin/netrw.lua
-vim.api.nvim_create_autocmd("filetype", {
 	pattern = "netrw",
 	callback = function()
-		-- https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
-		vim.g.netrw_banner = 0
-		vim.g.netrw_winsize = 30
-		vim.g.netrw_altfile = 1 -- make <C-6> go back to prev file, not netrw
-		vim.g.netrw_localcopydircmd = "cp -r" -- allow whole folder copying
-		function NetrwWinBar()
-			return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
-		end
 		vim.opt_local.winbar = "%{%v:lua.NetrwWinBar()%}"
 		vim.keymap.set("n", "h", "-", { remap = true, buffer = true })
 		vim.keymap.set("n", "l", "<cr>", { remap = true, buffer = true })
@@ -260,37 +104,21 @@ vim.api.nvim_create_autocmd("filetype", {
 	end,
 })
 
--- TODO extend this to handle loclist in the same way - if you use grr in 0.11, that
--- populates the qf, but using gO (capital o) populates the loclist.
--- What was previously in /after/ftplugin/qf.lua
-vim.api.nvim_create_autocmd("filetype", {
-	pattern = "qf",
-	callback = function()
-		vim.keymap.set("n", "<C-n>", "<cmd>cnext | wincmd p<cr>", { remap = true, buffer = true })
-		vim.keymap.set("n", "<C-p>", "<cmd>cprev | wincmd p<cr>", { remap = true, buffer = true })
-		vim.keymap.set("n", "x", function()
-			-- use x to filter __highlighted__ entries from the qf list
-			local qf = vim.fn.getqflist({ idx = 0, items = 0 })
-			local current_idx = qf.idx
+-- ## NVIM.KEYBINDS
+function SetTabSize(size) -- number | nil
+	size = size or 4
+	vim.opt.tabstop = size
+	vim.opt.shiftwidth = size
+	vim.opt.softtabstop = size
+end
+local function super_tab(direction) -- "next" | "previous"
+	if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+		return "<cmd>" .. "c" .. direction .. "<CR>"
+	end
 
-			local new_qf_list = {}
-
-			for k, v in pairs(qf.items) do
-				if k ~= current_idx then
-					table.insert(new_qf_list, v)
-				end
-			end
-
-			vim.fn.setqflist(new_qf_list)
-		end, { remap = true, buffer = true })
-		vim.cmd("wincmd K")
-	end,
-})
-
--- NVIM.KEYBINDS
--- TODO this is sort of like "super escape". May want to look at a "super tab", depending
--- on how snippets work, and it may be worthwhile due to the tab location (thumb cluster).
-vim.keymap.set("n", "<Esc>", function()
+	return direction == "next" and "<Tab>" or "<S-Tab>"
+end
+local function super_escape()
 	local filetype = vim.bo.filetype
 	local is_netrw = filetype == "netrw"
 	local is_qf_or_help = filetype == "qf" or filetype == "help"
@@ -303,55 +131,47 @@ vim.keymap.set("n", "<Esc>", function()
 	elseif is_netrw then
 		vim.cmd("Rex")
 	end
-end, { silent = true })
+end
+vim.keymap.set("n", "<Esc>", super_escape, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
-vim.keymap.set("n", "[e", function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, { silent = true })
-vim.keymap.set("n", "]e", function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, { silent = true })
--- TODO play around with this and vim.lsp.completion - this may allow us to get
--- autoimport in TS!
-vim.keymap.set("i", "<C-j>", "<C-x><C-o>", { silent = true }) -- Lsp completion
--- TODO look at why this does not work for olympus.
-vim.api.nvim_create_user_command("Tsc", function()
-	local ts_root = vim.fs.root(0, "tsconfig") -- may need updating in a TS proj at work
-	if ts_root == nil then
-		return print("Unable to find tsconfig")
-	end
-	vim.cmd("compiler tsc | echo 'Building TypeScript...' | silent make! --noEmit | echo 'TypeScript built.' | copen")
-end, {})
+vim.keymap.set("n", "<leader>t", [[:lua SetTabSize()<Left>]], { noremap = true })
+vim.keymap.set("n", "<Tab>", function()
+	return super_tab("next")
+end, { noremap = true, expr = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", function()
+	return super_tab("previous")
+end, { noremap = true, expr = true, silent = true })
 
--- NVIM.OPTIONS
+-- ## NVIM.OPTIONS
+SetTabSize()
 vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
 vim.o.winborder = "rounded"
-vim.opt.background = "dark"
 vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "80"
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 vim.opt.expandtab = true
-vim.opt.fillchars = { eob = " ", wbr = "▀", vert = "█" } -- see unicode block
+vim.opt.fillchars = { wbr = "▀", vert = "█" } -- see unicode block
 vim.opt.ignorecase = true
 vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
 vim.opt.ruler = false
-vim.opt.shiftwidth = 0 -- follow vim.opt.tabstop
-vim.opt.showcmd = false
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
 vim.opt.smartcase = true
 vim.opt.smartindent = true
-vim.opt.softtabstop = 4
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
--- TODO create way to toggle this easily, as lots of TS projects use 2.
-vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
+function WinBar()
+	local icon = vim.bo.modified and "" or ""
+	return "%*%=%#Normal# " .. icon .. " %t %*%="
+end
+
+vim.opt.winbar = "%{%v:lua.WinBar()%}"
 
 vim.cmd("colorscheme pax")
