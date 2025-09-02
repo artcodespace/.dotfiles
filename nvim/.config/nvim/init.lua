@@ -1,6 +1,5 @@
 -- ## TODOS
--- fix the hl+ hl group not working in the pax theme!
--- add the ability to start neovim with/without lsp using a flag -- see line 71
+-- fix the hl+ hl group not working in the pax theme! it's italic/underline not working
 
 -- ## INTRO
 vim.g.mapleader = " "
@@ -66,18 +65,16 @@ require("nvim-treesitter.configs").setup({
 vim.g.tmux_navigator_no_wrap = 1
 require("nvim-surround").setup()
 
--- ## NVIM.LSP >>> for now just don't enable by default!
--- vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
--- TODO >>> add a function to turn off and disable all clients, or alternatively
--- start with them off and add a function to turn them all _on_.
+-- ## NVIM.LSP
+vim.api.nvim_create_user_command("LspOn", function()
+	vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+	vim.cmd("edit") -- to force reattach to current buffer
+end, {})
+vim.api.nvim_create_user_command("LspOff", function()
+	vim.lsp.stop_client(vim.lsp.get_clients())
+end, {})
+
 -- ## NVIM.AUTOCOMMANDS
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = function()
-		if next(vim.fn.argv()) == nil then
-			require("fzf-lua").files() -- open fzf if started with no args
-		end
-	end,
-})
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "netrw", "qf", "help" }, -- no visual columns in these files
 	callback = function()
