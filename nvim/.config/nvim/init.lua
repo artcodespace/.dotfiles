@@ -1,6 +1,3 @@
--- ## TODOS
--- fix the hl+ hl group not working in the pax theme! it's italic/underline not working
-
 -- ## INTRO
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -9,7 +6,7 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 fzf.setup({
-	fzf_colors = { true, ["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" } },
+	fzf_colors = { true, ["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" } }, -- try to move to theme
 	keymap = {
 		builtin = {
 			["<C-d>"] = "preview-page-down",
@@ -20,11 +17,13 @@ fzf.setup({
 		rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096",
 	},
 })
-
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
-vim.keymap.set("n", "<leader>o", fzf.treesitter)
+vim.keymap.set("n", "<leader>o", fzf.lsp_document_symbols)
+vim.keymap.set("n", "<leader>O", fzf.lsp_workspace_symbols)
+vim.keymap.set("n", "<leader>d", fzf.lsp_document_diagnostics)
+vim.keymap.set("n", "<leader>D", fzf.lsp_workspace_diagnostics)
 
 -- ## PLUGINS.CONFORM
 require("conform").setup({
@@ -41,38 +40,35 @@ require("conform").setup({
 		lua = { "stylua" },
 		nix = { "alejandra" },
 	},
-	format_on_save = {
-		timeout_ms = 500,
-	},
+	format_on_save = {},
 })
 
--- ## PLUGINS.NVIM-TREESITTER
--- required for nix compatibility, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
+-- ## PLUGINS.NVIM-TREESITTER, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
 local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
-
 require("nvim-treesitter.configs").setup({
 	parser_install_dir = parser_install_dir,
 	ensure_installed = parsers,
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = false,
-	},
+	highlight = { enable = true },
 })
 
 -- ## PLUGINS.VIM-TMUX-NAVIGATOR && PLUGINS.NVIM-SURROUND
 vim.g.tmux_navigator_no_wrap = 1
 require("nvim-surround").setup()
 
--- ## NVIM.LSP
-vim.api.nvim_create_user_command("LspOn", function()
-	vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
-	vim.cmd("edit") -- to force reattach to current buffer
-end, {})
-vim.api.nvim_create_user_command("LspOff", function()
-	vim.lsp.stop_client(vim.lsp.get_clients())
-end, {})
+-- ## NVIM.GLOBALS
+function SetTabSize(size) -- string | nil
+	size = tonumber(size) or 4
+	vim.opt.tabstop, vim.opt.shiftwidth, vim.opt.softtabstop = size, size, size
+end
+function WinBar()
+	local icon = vim.bo.modified and "" or ""
+	return "%*%=%#Normal# " .. icon .. " %t %*%="
+end
+function NetrwWinBar()
+	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
+end
 
 -- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("FileType", {
@@ -88,9 +84,6 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 30
 vim.g.netrw_altfile = 1 -- make <C-6> go back to prev file, not netrw
 vim.g.netrw_localcopydircmd = "cp -r" -- allow whole folder copying
-function NetrwWinBar()
-	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
-end
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "netrw",
 	callback = function()
@@ -102,54 +95,39 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- ## NVIM.KEYBINDS
-function SetTabSize(size) -- number | nil
-	size = size or 4
-	vim.opt.tabstop = size
-	vim.opt.shiftwidth = size
-	vim.opt.softtabstop = size
-end
 local function super_tab(direction) -- "next" | "previous"
-	if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
-		return "<cmd>" .. "c" .. direction .. "<CR>"
+	return function()
+		if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+			return "<cmd>" .. "c" .. direction .. "<CR>"
+		end
+		return direction == "next" and "<Tab>" or "<S-Tab>"
 	end
-
-	return direction == "next" and "<Tab>" or "<S-Tab>"
 end
 local function super_escape()
-	local filetype = vim.bo.filetype
-	local is_netrw = filetype == "netrw"
-	local is_qf_or_help = filetype == "qf" or filetype == "help"
-	local has_highlights = vim.v.hlsearch == 1
-
-	if has_highlights then
+	if vim.v.hlsearch == 1 then
 		vim.cmd("nohls")
-	elseif is_qf_or_help then
+	elseif vim.bo.filetype == "qf" or vim.bo.filetype == "help" then
 		vim.cmd("close")
-	elseif is_netrw then
+	elseif vim.bo.filetype == "netrw" then
 		vim.cmd("Rex")
 	end
 end
 vim.keymap.set("n", "<Esc>", super_escape, { silent = true })
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { silent = true })
-vim.keymap.set("n", "<leader>t", [[:lua SetTabSize()<Left>]], { noremap = true })
-vim.keymap.set("n", "<Tab>", function()
-	return super_tab("next")
-end, { noremap = true, expr = true, silent = true })
-vim.keymap.set("n", "<S-Tab>", function()
-	return super_tab("previous")
-end, { noremap = true, expr = true, silent = true })
+vim.keymap.set("n", "<Tab>", super_tab("next"), { noremap = true, expr = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", super_tab("previous"), { noremap = true, expr = true, silent = true })
 
 -- ## NVIM.OPTIONS
-SetTabSize()
-vim.o.guicursor = vim.o.guicursor .. ",a:Cursor" -- append hl-Cursor to all modes
-vim.o.winborder = "rounded"
+SetTabSize(4)
 vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "80"
+vim.opt.completeopt = "fuzzy,menu,noinsert"
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.fillchars = { wbr = "▀", vert = "█" } -- see unicode block
+vim.opt.guicursor:append({ "a:Cursor" }) -- append hl-Cursor to all modes
 vim.opt.ignorecase = true
 vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
@@ -164,11 +142,9 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.termguicolors = true
 vim.opt.undofile = true
-function WinBar()
-	local icon = vim.bo.modified and "" or ""
-	return "%*%=%#Normal# " .. icon .. " %t %*%="
-end
-
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
+vim.opt.winborder = "rounded"
 
+-- ## INITIALISATION
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 vim.cmd("colorscheme pax")
