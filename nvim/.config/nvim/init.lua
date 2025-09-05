@@ -6,7 +6,7 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 fzf.setup({
-	fzf_colors = { true, ["hl+"] = { "fg", { "PmenuSel" }, "italic", "underline" } }, -- try to move to theme
+	fzf_colors = true,
 	keymap = {
 		builtin = {
 			["<C-d>"] = "preview-page-down",
