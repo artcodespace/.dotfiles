@@ -6,8 +6,7 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 local keymap = { builtin = { ["<C-d>"] = "preview-page-down", ["<C-u>"] = "preview-page-up" } }
-local grep = { rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096" }
-fzf.setup({ fzf_colors = true, keymap = keymap, grep = grep })
+fzf.setup({ fzf_colors = true, keymap = keymap, grep = { rg_opts = "" } })
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
