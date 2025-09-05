@@ -5,18 +5,9 @@ vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
-fzf.setup({
-	fzf_colors = true,
-	keymap = {
-		builtin = {
-			["<C-d>"] = "preview-page-down",
-			["<C-u>"] = "preview-page-up",
-		},
-	},
-	grep = {
-		rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096",
-	},
-})
+local keymap = { builtin = { ["<C-d>"] = "preview-page-down", ["<C-u>"] = "preview-page-up" } }
+local grep = { rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096" }
+fzf.setup({ fzf_colors = true, keymap = keymap, grep = grep })
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
@@ -44,9 +35,9 @@ require("conform").setup({
 })
 
 -- ## PLUGINS.NVIM-TREESITTER, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
+local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
-local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
 require("nvim-treesitter.configs").setup({
 	parser_install_dir = parser_install_dir,
 	ensure_installed = parsers,
