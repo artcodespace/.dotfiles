@@ -1,0 +1,24 @@
+{
+  "name": "pax",
+  "author": "artcodespace",
+  "color": [
+    "#1a1a1a",
+    "#b35959",
+    "#59b359",
+    "#ccb866",
+    "#7aa3cc",
+    "#b359b3",
+    "#59b3b3",
+    "#cccac2",
+    "#4d4d4d",
+    "#e66e6e",
+    "#6ee66e",
+    "#ffdc69",
+    "#a6a6ff",
+    "#e673e6",
+    "#6ee6e6",
+    "#fffdf2"
+  ],
+  "foreground": "#e9e7dd",
+  "background": "#1e1e2e"
+}
