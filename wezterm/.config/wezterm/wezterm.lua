@@ -1,16 +1,34 @@
 local w = require("wezterm")
 local config = w.config_builder()
 
-local dark_scheme = w.get_builtin_color_schemes()["Catppuccin Mocha (Gogh)"]
-local light_scheme = w.get_builtin_color_schemes()["Catppuccin Latte (Gogh)"]
-dark_scheme.foreground = "#e9e7dd" -- these are for consistency with nvim
-light_scheme.foreground = "#19191f"
-
-config.color_schemes = {
-	["light"] = light_scheme,
-	["dark"] = dark_scheme,
+config.color_scheme_dirs = { "~/.config/wezterm/colors" }
+config.color_scheme = "pax"
+config.colors = {
+	ansi = {
+		"#1a1a1a",
+		"#b35959",
+		"#59b359",
+		"#ccb866",
+		"#7aa3cc",
+		"#b359b3",
+		"#59b3b3",
+		"#cccac2",
+	},
+	background = "#1e1e2e",
+	brights = {
+		"#4d4d4d",
+		"#e66e6e",
+		"#6ee66e",
+		"#ffdc69",
+		"#99ccff",
+		"#e673e6",
+		"#6ee6e6",
+		"#fffdf2",
+	},
+	cursor_bg = "#ff007b",
+	cursor_border = "#ff007b",
+	foreground = "#e9e7dd",
 }
-config.color_scheme = "dark"
 config.font = w.font("JetBrainsMonoNL Nerd Font Mono") -- has best icon sizes
 config.font_size = 15
 config.command_palette_font_size = 18
