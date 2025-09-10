@@ -1,28 +1,28 @@
 [colors]
 ansi = [
     "#1a1a1a",
-    "#b35959",
-    "#59b359",
-    "#ccb866",
-    "#7aa3cc",
-    "#b359b3",
-    "#59b3b3",
+    "#b34747",
+    "#47b347",
+    "#ccad52",
+    "#3d85cc",
+    "#b347b3",
+    "#36b3b3",
     "#cccac2",
 ]
-background = "#1e1e2e"
+background = "#1b1b26"
 brights = [
     "#4d4d4d",
-    "#e66e6e",
-    "#6ee66e",
+    "#e65c5c",
+    "#5ce65c",
     "#ffdc69",
-    "#99ccff",
+    "#4da6ff",
     "#e673e6",
-    "#6ee6e6",
-    "#fffdf2",
+    "#45e6e6",
+    "#fffdf2"
 ]
 cursor_bg = "#ff007b"
 cursor_border = "#ff007b"
-foreground = "#e9e7dd"
+foreground = "#e6e6cf"
 
 [metadata]
 name = "pax"
