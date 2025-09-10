@@ -20,7 +20,9 @@ brights = [
     "#6ee6e6",
     "#fffdf2",
 ]
-cursor_bg: "#ff007b"
-cursor_border: "#ff007b"
-foreground: "#e9e7dd"
+cursor_bg = "#ff007b"
+cursor_border = "#ff007b"
+foreground = "#e9e7dd"
 
+[metadata]
+name = "pax"
