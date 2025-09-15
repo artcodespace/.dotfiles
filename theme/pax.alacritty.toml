@@ -1,0 +1,29 @@
+colors:
+  # Default colors
+  primary:
+    background: '0x1b1b26'
+    foreground: '0xe6e6cf'
+
+  # Normal colors
+  normal:
+    black:   '0x1b1b26'
+    red:     '0xb34747'
+    green:   '0x47b347'
+    yellow:  '0xccad52'
+    blue:    '0x3d85cc'
+    magenta: '0xb347b3'
+    cyan:    '0x36b3b3'
+    white:   '0xccccad'
+
+  # Bright colors
+  bright:
+    black:   '0x36364d'
+    red:     '0xe65c5c'
+    green:   '0x5ce65c'
+    yellow:  '0xffd966'
+    blue:    '0x4da6ff'
+    magenta: '0xe65ce6'
+    cyan:    '0x45e6e6'
+    white:   '0xffffd9'
+
+  # TODO >>> add cursor
