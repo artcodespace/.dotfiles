@@ -3,12 +3,22 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
 vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+vim.diagnostic.config({
+	severity_sort = true,
+	signs = {
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "ErrorMsgReverse",
+			[vim.diagnostic.severity.WARN] = "WarningMsgReverse",
+		},
+	},
+})
 vim.cmd("colorscheme pax")
 
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
 local keymap = { builtin = { ["<C-d>"] = "preview-page-down", ["<C-u>"] = "preview-page-up" } }
-fzf.setup({ fzf_colors = true, keymap = keymap, grep = { rg_opts = "" } })
+local grep = { rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e" }
+fzf.setup({ fzf_colors = true, keymap = keymap, grep = grep })
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
