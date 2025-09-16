@@ -4,7 +4,7 @@ foreground  |-          |#e6e6cf    |60 10 90   |
 background  |-          |#1b1b26    |240 30 15  |
 cursor-color|-          |#ff007b    |331 100 50 |
 cursor-text |-          |#1b1b26    |240 30 15  |
-palette     |0          |#1b1b26    |240 29 15  |black
+palette     |0          |#1b1b26    |240 30 15  |black
 palette     |1          |#b34747    |0 60 70    |red
 palette     |2          |#47b347    |120 60 70  |green
 palette     |3          |#ccad52    |45 60 80   |yellow
@@ -23,23 +23,23 @@ palette     |15         |#ffffd9    |60 15 100  |brightwhite
 
 [pax-light]
 name        |index      |hex        |hsl        |notes
-foreground  |-          |#e6e6cf    |60 10 90   |
-background  |-          |#1b1b26    |240 30 15  |
+foreground  |-          |#242426    |240 5 15   |
+background  |-          |#f2f2e6    |60 5 95    |
 cursor-color|-          |#ff007b    |331 100 50 |
-cursor-text |-          |#1b1b26    |240 30 15  |
-palette     |0          |#1b1b26    |240 29 15  |black
-palette     |1          |#b34747    |0 60 70    |red
-palette     |2          |#47b347    |120 60 70  |yellow
-palette     |3          |#ccad52    |45 60 80   |green
-palette     |4          |#3d85cc    |210 70 80  |blue
-palette     |5          |#b347b3    |300 60 70  |magenta
-palette     |6          |#36b3b3    |180 70 70  |cyan
-palette     |7          |#cccac2    |60 15 80   |white
-palette     |8          |#4d4d4d    |240 30 30  |brightblack
-palette     |9          |#e65c5c    |0 60 90    |brightred
-palette     |10         |#5ce65c    |120 60 90  |brightyellow
-palette     |11         |#ffd966    |45 60 100  |brightgreen
-palette     |12         |#4da6ff    |210 70 100 |brightblue
-palette     |13         |#e65ce6    |300 60 90  |brightmagenta
-palette     |14         |#45e6e6    |180 70 90  |brightcyan
-palette     |15         |#fffdf2    |60 15 100  |brightwhite
+cursor-text |-          |#f2f2e6    |60 5 95    |
+palette     |0          |#242426    |240 5 15   |black
+palette     |1          |#cc1414    |0 90 80    |red
+palette     |2          |#14cc14    |120 90 80  |green
+palette     |3          |#cc9e14    |45 90 80   |yellow
+palette     |4          |#1470cc    |210 90 80  |blue
+palette     |5          |#cc14cc    |300 90 80  |magenta
+palette     |6          |#14cccc    |180 90 80  |cyan
+palette     |7          |#f2f2e6    |60 5 95    |white
+palette     |8          |#49494d    |240 5 30   |brightblack
+palette     |9          |#e61717    |0 90 90    |brightred
+palette     |10         |#17e617    |120 90 90  |brightgreen
+palette     |11         |#e6b217    |45 90 90   |brightyellow
+palette     |12         |#177ee6    |210 90 90  |brightblue
+palette     |13         |#e617e6    |300 90 90  |brightmagenta
+palette     |14         |#17e6e6    |180 90 90  |brightcyan
+palette     |15         |#fffff2    |60 5 100   |brightwhite
