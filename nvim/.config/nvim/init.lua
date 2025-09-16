@@ -1,7 +1,9 @@
--- ## INTRO
+-- ## INITIALISE
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+vim.cmd("colorscheme pax")
 
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
@@ -30,17 +32,7 @@ require("conform").setup({
 		lua = { "stylua" },
 		nix = { "alejandra" },
 	},
-	format_on_save = {},
-})
-
--- ## PLUGINS.NVIM-TREESITTER, see https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#advanced-setup
-local parsers = { "comment", "css", "javascript", "lua", "typescript", "tsx", "vim", "vimdoc", "nix" }
-local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitter"
-vim.opt.runtimepath:append(parser_install_dir)
-require("nvim-treesitter.configs").setup({
-	parser_install_dir = parser_install_dir,
-	ensure_installed = parsers,
-	highlight = { enable = true },
+	format_on_save = { quiet = true },
 })
 
 -- ## PLUGINS.VIM-TMUX-NAVIGATOR && PLUGINS.NVIM-SURROUND
@@ -54,7 +46,7 @@ function SetTabSize(size) -- string | nil
 end
 function WinBar()
 	local icon = vim.bo.modified and "" or ""
-	return "%*%=%#Normal# " .. icon .. " %t %*%="
+	return "%=%#Normal# " .. icon .. " %t %*%="
 end
 function NetrwWinBar()
 	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
@@ -89,6 +81,7 @@ local function super_tab(direction) -- "next" | "previous"
 		if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
 			return "<cmd>" .. "c" .. direction .. "<CR>"
 		end
+
 		return direction == "next" and "<Tab>" or "<S-Tab>"
 	end
 end
@@ -121,7 +114,6 @@ vim.opt.ignorecase = true
 vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
-vim.opt.ruler = false
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
 vim.opt.smartcase = true
@@ -133,7 +125,3 @@ vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
 vim.opt.winborder = "rounded"
-
--- ## INITIALISATION
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
-vim.cmd("colorscheme pax")
