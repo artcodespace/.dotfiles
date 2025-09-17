@@ -2,7 +2,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, " ", "<nop>", { silent = true })
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 vim.diagnostic.config({
 	severity_sort = true,
 	signs = {
@@ -13,6 +12,20 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+local base_on_attach = vim.lsp.config.eslint.on_attach
+vim.lsp.config("eslint", {
+	on_attach = function(client, bufnr)
+		if not base_on_attach then
+			return
+		end
+		base_on_attach(client, bufnr)
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			command = "LspEslintFixAll",
+		})
+	end,
+})
 
 -- ## PLUGINS.FZF-LUA
 local fzf = require("fzf-lua")
