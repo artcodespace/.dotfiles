@@ -63,7 +63,7 @@ vim.g.tmux_navigator_no_wrap = 1
 require("nvim-surround").setup()
 
 -- ## NVIM.GLOBALS
-function SetTabSize(size) -- string | nil
+function SetTabSize(size) -- number | nil
 	size = tonumber(size) or 4
 	vim.opt.tabstop, vim.opt.shiftwidth, vim.opt.softtabstop = size, size, size
 end
