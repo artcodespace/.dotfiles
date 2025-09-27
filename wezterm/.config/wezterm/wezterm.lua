@@ -17,7 +17,13 @@ config.send_composed_key_when_left_alt_is_pressed = true -- make opt+3 = # on Ma
 config.front_end = "WebGpu" -- required for proper nix rendering
 
 w.on("augment-command-palette", function()
-	return { { brief = "Toggle colour theme", icon = "fa_sun_o", action = w.action.EmitEvent("toggle-colorscheme") } }
+	return {
+		{
+			brief = "Toggle colour theme",
+			icon = "fa_sun_o",
+			action = w.action.EmitEvent("toggle-colorscheme"),
+		},
+	}
 end)
 w.on("toggle-colorscheme", function(window)
 	local overrides = window:get_config_overrides() or {}
