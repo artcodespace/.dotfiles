@@ -1,4 +1,10 @@
 [colors]
+foreground = "#e6e6cf"
+background = "#1b1b26"
+cursor_fg = "#1b1b26"
+cursor_bg = "#ff007b"
+cursor_border = "#ff007b"
+
 ansi = [
     "#1b1b26",
     "#b34747",
@@ -9,7 +15,6 @@ ansi = [
     "#36b3b3",
     "#ccccad",
 ]
-background = "#1b1b26"
 brights = [
     "#36364d",
     "#e65c5c",
@@ -20,9 +25,6 @@ brights = [
     "#45e6e6",
     "#ffffd9"
 ]
-cursor_bg = "#ff007b"
-cursor_border = "#ff007b"
-foreground = "#e6e6cf"
 
 [metadata]
-name = "pax"
+name = "pax-dark"
