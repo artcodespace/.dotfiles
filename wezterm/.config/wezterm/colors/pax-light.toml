@@ -1,0 +1,31 @@
+[colors]
+foreground = "#242426"
+background = "#f2f2e6"
+cursor_fg = "#f2f2e6"
+cursor_bg = "#ff007b"
+cursor_border = "#ff007b"
+
+ansi = [
+    "#242426",
+    "#cc1414",
+    "#14cc14",
+    "#cc9e14",
+    "#1470cc",
+    "#cc14cc",
+    "#14cccc",
+    "#f2f2e6",
+]
+brights = [
+    "#49494d",
+    "#e61717",
+    "#17e617",
+    "#e6b217",
+    "#177ee6",
+    "#e617e6",
+    "#17e6e6",
+    "#fffff2"
+]
+
+[metadata]
+name = "pax-light"
+
