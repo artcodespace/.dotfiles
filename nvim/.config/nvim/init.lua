@@ -12,7 +12,7 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd", "kotlin_language_server" })
 local base_on_attach = vim.lsp.config.eslint.on_attach
 vim.lsp.config("eslint", {
 	on_attach = function(client, bufnr)
@@ -128,7 +128,7 @@ SetTabSize(4)
 vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "80"
-vim.opt.completeopt = "fuzzy,menu,noinsert"
+vim.opt.completeopt = "fuzzy,menu,noselect,noinsert"
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 vim.opt.expandtab = true
