@@ -55,6 +55,8 @@
             stylua
             nixd
             alejandra
+            kotlin-language-server
+            ktfmt
           ]
           ++ (
             # NOTE there is pkgs.stdenv.isDarwin

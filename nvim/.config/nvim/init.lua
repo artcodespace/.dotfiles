@@ -55,6 +55,7 @@ require("conform").setup({
 		markdown = { "prettierd" },
 		lua = { "stylua" },
 		nix = { "alejandra" },
+		kotlin = { "ktfmt" },
 	},
 	format_on_save = { quiet = true },
 })
