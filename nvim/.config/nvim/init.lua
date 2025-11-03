@@ -12,7 +12,7 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd", "kotlin_language_server" })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 local base_on_attach = vim.lsp.config.eslint.on_attach
 vim.lsp.config("eslint", {
 	on_attach = function(client, bufnr)
@@ -55,7 +55,6 @@ require("conform").setup({
 		markdown = { "prettierd" },
 		lua = { "stylua" },
 		nix = { "alejandra" },
-		kotlin = { "ktfmt" },
 	},
 	format_on_save = { quiet = true },
 })
@@ -75,6 +74,25 @@ function WinBar()
 end
 function NetrwWinBar()
 	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
+end
+function Ruler()
+	if vim.api.nvim_get_mode().mode ~= "n" then
+		return ""
+	end
+
+	local counts = vim.diagnostic.count(0)
+	local error_count = counts[vim.diagnostic.severity.ERROR] or 0
+	local warning_count = counts[vim.diagnostic.severity.WARN] or 0
+	local error_string = error_count > 0 and "%#ErrorMsgReverse#    " or "    "
+	local warning_string = warning_count > 0 and "%#WarningMsgReverse#    " or "    "
+	return "%=" .. warning_string .. error_string
+end
+function StatusColumn()
+	local is_current = vim.v.lnum == vim.fn.line(".")
+	if is_current then
+		return "%#Cursor#%4l%#CursorLinePointer#"
+	end
+	return "%4l   ▐"
 end
 
 -- ## NVIM.AUTOCOMMANDS
@@ -139,10 +157,12 @@ vim.opt.ignorecase = true
 vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
+vim.opt.rulerformat = "%{%v:lua.Ruler()%}"
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
 vim.opt.smartcase = true
 vim.opt.smartindent = true
+vim.opt.statuscolumn = "%{%v:lua.StatusColumn()%}"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
