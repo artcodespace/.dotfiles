@@ -90,9 +90,9 @@ end
 function StatusColumn()
 	local is_current = vim.v.lnum == vim.fn.line(".")
 	if is_current then
-		return "%#Cursor#%-5l%#CursorLinePointer# "
+		return "%#Cursor#%4l%#CursorLinePointer#"
 	end
-	return "%-5l    "
+	return "%4l  ▕"
 end
 
 -- ## NVIM.AUTOCOMMANDS
