@@ -87,6 +87,13 @@ function Ruler()
 	local warning_string = warning_count > 0 and "%#WarningMsgReverse#    " or "    "
 	return "%=" .. warning_string .. error_string
 end
+function StatusColumn()
+	local is_current = vim.v.lnum == vim.fn.line(".")
+	if is_current then
+		return "%#Cursor#%-5l%#CursorLinePointer# "
+	end
+	return "%-5l    "
+end
 
 -- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("FileType", {
@@ -155,6 +162,7 @@ vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
 vim.opt.smartcase = true
 vim.opt.smartindent = true
+vim.opt.statuscolumn = "%{%v:lua.StatusColumn()%}"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
