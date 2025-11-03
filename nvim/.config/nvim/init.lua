@@ -12,7 +12,7 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd", "kotlin_language_server" })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
 local base_on_attach = vim.lsp.config.eslint.on_attach
 vim.lsp.config("eslint", {
 	on_attach = function(client, bufnr)
@@ -55,7 +55,6 @@ require("conform").setup({
 		markdown = { "prettierd" },
 		lua = { "stylua" },
 		nix = { "alejandra" },
-		kotlin = { "ktfmt" },
 	},
 	format_on_save = { quiet = true },
 })
