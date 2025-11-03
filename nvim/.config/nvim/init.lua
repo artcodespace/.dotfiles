@@ -92,7 +92,7 @@ function StatusColumn()
 	if is_current then
 		return "%#Cursor#%4l%#CursorLinePointer#"
 	end
-	return "%4l  ▕"
+	return "%4l   ▐"
 end
 
 -- ## NVIM.AUTOCOMMANDS
