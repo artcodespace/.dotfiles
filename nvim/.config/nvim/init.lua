@@ -75,6 +75,18 @@ end
 function NetrwWinBar()
 	return "%#Normal#  %t %*%=%#Normal# 󰋞 " .. vim.fn.getcwd() .. " "
 end
+function Ruler()
+	if vim.api.nvim_get_mode().mode ~= "n" then
+		return ""
+	end
+
+	local counts = vim.diagnostic.count(0)
+	local error_count = counts[vim.diagnostic.severity.ERROR] or 0
+	local warning_count = counts[vim.diagnostic.severity.WARN] or 0
+	local error_string = error_count > 0 and "%#ErrorMsgReverse#    " or "    "
+	local warning_string = warning_count > 0 and "%#WarningMsgReverse#    " or "    "
+	return "%=" .. warning_string .. error_string
+end
 
 -- ## NVIM.AUTOCOMMANDS
 vim.api.nvim_create_autocmd("FileType", {
@@ -138,6 +150,7 @@ vim.opt.ignorecase = true
 vim.opt.jumpoptions = "stack"
 vim.opt.laststatus = 0
 vim.opt.number = true
+vim.opt.rulerformat = "%{%v:lua.Ruler()%}"
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
 vim.opt.smartcase = true
