@@ -36,6 +36,8 @@
             wezterm
             tmux
             starship
+            direnv
+            nix-direnv
             # EXPERIMENTAL - escape neovim to use unstable branch for 0.11
             (unstablePkgs.neovim)
             fzf
@@ -44,6 +46,7 @@
             fd
             yazi
             jq
+            # LANGUAGES
             nodejs_22
             typescript
             nodePackages.nodemon
@@ -55,6 +58,8 @@
             stylua
             nixd
             alejandra
+            go
+            gopls
           ]
           ++ (
             # NOTE there is pkgs.stdenv.isDarwin
