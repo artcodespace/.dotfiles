@@ -23,7 +23,7 @@ nix profile install ~/.dotfiles
 3. Stow the config folders:
 
 ```bash
-cd ~/.dotfiles && stow nvim tmux wezterm starship [zsh]
+cd ~/.dotfiles && stow nvim tmux wezterm starship direnv [zsh]
 ```
 
 # TODO
