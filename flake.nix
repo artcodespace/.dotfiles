@@ -2,8 +2,8 @@
   description = "For use with nix profile";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = inputs: let
@@ -18,14 +18,14 @@
     };
 
     # Helper function. Call it with one of the above objects.
-    # It will call the system specific`buildEnv` function with a name
+    # It will call the system specific `buildEnv` function with a name
     # reflecting the profile being built and system specific packages.
     buildPackage = {
       displayName,
       architecture,
     } @ platform: let
       pkgs = inputs.nixpkgs.legacyPackages.${architecture};
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${architecture};
+      # unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${architecture};
     in {
       default = pkgs.buildEnv {
         name = "dotfile-nix-profile-" + displayName;
@@ -36,14 +36,16 @@
             wezterm
             tmux
             starship
-            # EXPERIMENTAL - escape neovim to use unstable branch for 0.11
-            (unstablePkgs.neovim)
+            direnv
+            nix-direnv
+            neovim
             fzf
             lazygit
             ripgrep
             fd
             yazi
             jq
+            # LANGUAGES
             nodejs_22
             typescript
             nodePackages.nodemon
@@ -55,6 +57,8 @@
             stylua
             nixd
             alejandra
+            go
+            gopls
           ]
           ++ (
             # NOTE there is pkgs.stdenv.isDarwin
