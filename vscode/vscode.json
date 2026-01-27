@@ -1,0 +1,84 @@
+{
+  "workbench.startupEditor": "none",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "javascript.referencesCodeLens.enabled": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "typescript.referencesCodeLens.showOnAllFunctions": true,
+  "editor.minimap.enabled": false,
+  "git.autofetch": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "window.commandCenter": false,
+  "workbench.layoutControl.enabled": false,
+  "editor.occurrencesHighlight": "off",
+  "vim.leader": "<Space>",
+  "vim.useSystemClipboard": true,
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    // FZF
+    {
+      "before": ["<leader>", "f"],
+      "commands": ["workbench.action.quickOpen"]
+    },
+    {
+      "before": ["<leader>", "s"],
+      "commands": ["workbench.action.findInFiles"]
+    },
+    {
+      "before": ["<leader>", "o"],
+      "commands": ["workbench.action.gotoSymbol"]
+    },
+    // LSP
+    {
+      "before": ["<leader>", "a"],
+      "commands": ["editor.action.codeAction"]
+    },
+    {
+      "before": ["<leader>", "r"],
+      "commands": ["editor.action.rename"]
+    },
+    // Keybinds
+    {
+      "before": ["<leader>", "e"],
+      "commands": ["workbench.view.explorer"]
+    },
+    {
+      "before": ["]", "d"],
+      "commands": ["editor.action.marker.nextInFiles"]
+    },
+    {
+      "before": ["[", "d"],
+      "commands": ["editor.action.marker.prevInFiles"]
+    },
+    {
+      "before": ["<Esc>"],
+      "commands": [":nohls"]
+    },
+    {
+      "before": ["ctrl+h"],
+      "after": ["ctrl+w", "h"]
+    },
+    {
+      "before": ["ctrl+j"],
+      "after": ["ctrl+w", "j"]
+    },
+    {
+      "before": ["ctrl+k"],
+      "after": ["ctrl+w", "k"]
+    },
+    {
+      "before": ["ctrl+l"],
+      "after": ["ctrl+w", "l"]
+    }
+  ],
+  "editor.accessibilitySupport": "off",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "workbench.sideBar.location": "right",
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
