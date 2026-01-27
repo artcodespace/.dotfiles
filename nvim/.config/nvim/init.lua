@@ -12,7 +12,7 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd" })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd", "gopls" })
 local base_on_attach = vim.lsp.config.eslint.on_attach
 vim.lsp.config("eslint", {
 	on_attach = function(client, bufnr)
@@ -55,6 +55,7 @@ require("conform").setup({
 		markdown = { "prettierd" },
 		lua = { "stylua" },
 		nix = { "alejandra" },
+		go = { "gofmt" },
 	},
 	format_on_save = { quiet = true },
 })
@@ -94,15 +95,6 @@ function StatusColumn()
 	end
 	return "%-4l   ▐"
 end
-
--- ## NVIM.AUTOCOMMANDS
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "netrw", "qf", "help" }, -- no visual columns in these files
-	callback = function()
-		vim.opt_local.colorcolumn = ""
-		vim.opt_local.cursorcolumn = false
-	end,
-})
 
 -- ## NVIM.NETRW see https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 vim.g.netrw_banner = 0
