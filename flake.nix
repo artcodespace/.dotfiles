@@ -45,7 +45,6 @@
             fd
             yazi
             jq
-            claude-code
             # LANGUAGES
             nodejs_24
             yarn-berry
