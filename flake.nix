@@ -25,7 +25,7 @@
       architecture,
     } @ platform: let
       pkgs = inputs.nixpkgs.legacyPackages.${architecture};
-      # unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${architecture};
+      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${architecture};
     in {
       default = pkgs.buildEnv {
         name = "dotfile-nix-profile-" + displayName;
@@ -45,13 +45,16 @@
             fd
             yazi
             jq
+            claude-code
             # LANGUAGES
-            nodejs_22
+            nodejs_24
+            yarn-berry
             typescript
             nodePackages.nodemon
             vscode-langservers-extracted
             nodePackages.typescript-language-server
             nodePackages.eslint
+            biome
             prettierd
             lua-language-server
             stylua
@@ -59,6 +62,7 @@
             alejandra
             go
             gopls
+            unstablePkgs.beam27Packages.expert
           ]
           ++ (
             # NOTE there is pkgs.stdenv.isDarwin
