@@ -12,7 +12,7 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd", "gopls" })
+vim.lsp.enable({ "lua_ls", "ts_ls", "biome", "eslint", "cssls", "expert", "nixd", "gopls" })
 local base_on_attach = vim.lsp.config.eslint.on_attach
 vim.lsp.config("eslint", {
 	on_attach = function(client, bufnr)
@@ -44,13 +44,14 @@ vim.keymap.set("n", "<leader>D", fzf.lsp_workspace_diagnostics)
 -- ## PLUGINS.CONFORM
 require("conform").setup({
 	formatters_by_ft = {
-		javascript = { "prettierd" },
-		typescript = { "prettierd" },
-		javascriptreact = { "prettierd" },
-		typescriptreact = { "prettierd" },
+		javascript = { "biome", "prettierd", stop_after_first = true },
+		typescript = { "biome", "prettierd", stop_after_first = true },
+		javascriptreact = { "biome", "prettierd", stop_after_first = true },
+		typescriptreact = { "biome", "prettierd", stop_after_first = true },
+		jsonc = { "biome" },
+		json = { "prettierd" },
 		css = { "prettierd" },
 		html = { "prettierd" },
-		json = { "prettierd" },
 		yaml = { "prettierd" },
 		markdown = { "prettierd" },
 		lua = { "stylua" },
