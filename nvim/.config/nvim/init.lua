@@ -33,6 +33,7 @@ local keymap = { builtin = { ["<C-d>"] = "preview-page-down", ["<C-u>"] = "previ
 local grep = { rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e" }
 fzf.setup({ fzf_colors = true, keymap = keymap, grep = grep })
 fzf.register_ui_select()
+vim.keymap.set("n", "<leader> ", fzf.resume)
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
