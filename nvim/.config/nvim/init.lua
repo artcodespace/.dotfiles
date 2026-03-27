@@ -12,6 +12,7 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
+
 vim.lsp.enable({ "lua_ls", "ts_ls", "biome", "eslint", "cssls", "expert", "nixd", "gopls" })
 local base_on_attach = vim.lsp.config.eslint.on_attach
 vim.lsp.config("eslint", {
