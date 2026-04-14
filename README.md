@@ -23,20 +23,16 @@ nix profile install ~/.dotfiles
 3. Stow the config folders:
 
 ```bash
-cd ~/.dotfiles && stow nvim tmux wezterm starship direnv [zsh]
+cd ~/.dotfiles && stow nvim tmux wezterm starship direnv zsh
 ```
+
+Note that `.zshrc` will attempt to read from `.zshrc.local`. Use the local file to store system specific shell stuff.
 
 # TODO
 
-- Nvim:
-  - trial removing treesitter
+- Aerospace:
+  - setup for general work/admin split
 - Nix:
   - look at dir env integration for dev shell investigation work
-- Aerospace:
-  - look at the default keybinds and compare to sway - want a consistent configuration for tiling window managers
-- Starship:
-  - investigate getting some sort of indicator for what is installed in a nix shell
-- Other:
-  - investigate Justfile, may be useful in the future for command line usability improvements
-  - make jq helpers for turning master theme into windows terminal and wezterm configs!
-  - create an assets repo for font files, pngs etc
+- Tmux:
+  - figure out worktree workflow
