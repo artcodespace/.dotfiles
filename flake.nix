@@ -1,9 +1,10 @@
 {
+  # To upgrade after changes: `nix profile upgrade --all`
   description = "For use with nix profile";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = inputs: let
@@ -25,7 +26,7 @@
       architecture,
     } @ platform: let
       pkgs = inputs.nixpkgs.legacyPackages.${architecture};
-      # unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${architecture};
+      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${architecture};
     in {
       default = pkgs.buildEnv {
         name = "dotfile-nix-profile-" + displayName;
@@ -35,7 +36,6 @@
             stow
             wezterm
             tmux
-            starship
             direnv
             nix-direnv
             neovim
@@ -46,19 +46,20 @@
             yazi
             jq
             # LANGUAGES
-            nodejs_22
+            nodejs_24
+            yarn-berry
             typescript
             nodePackages.nodemon
             vscode-langservers-extracted
             nodePackages.typescript-language-server
             nodePackages.eslint
+            biome
             prettierd
             lua-language-server
             stylua
             nixd
             alejandra
-            go
-            gopls
+            unstablePkgs.beam27Packages.expert
           ]
           ++ (
             # NOTE there is pkgs.stdenv.isDarwin

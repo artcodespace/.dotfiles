@@ -12,7 +12,8 @@ vim.diagnostic.config({
 	},
 })
 vim.cmd("colorscheme pax")
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "cssls", "nixd", "gopls" })
+
+vim.lsp.enable({ "lua_ls", "ts_ls", "biome", "eslint", "cssls", "expert", "nixd" })
 local base_on_attach = vim.lsp.config.eslint.on_attach
 vim.lsp.config("eslint", {
 	on_attach = function(client, bufnr)
@@ -33,6 +34,7 @@ local keymap = { builtin = { ["<C-d>"] = "preview-page-down", ["<C-u>"] = "previ
 local grep = { rg_opts = "--column --line-number --no-heading --color=never --smart-case --max-columns=4096 -e" }
 fzf.setup({ fzf_colors = true, keymap = keymap, grep = grep })
 fzf.register_ui_select()
+vim.keymap.set("n", "<leader> ", fzf.resume)
 vim.keymap.set("n", "<leader>f", fzf.files)
 vim.keymap.set("n", "<leader>s", fzf.grep_project)
 vim.keymap.set("n", "<leader>h", fzf.helptags)
@@ -44,13 +46,14 @@ vim.keymap.set("n", "<leader>D", fzf.lsp_workspace_diagnostics)
 -- ## PLUGINS.CONFORM
 require("conform").setup({
 	formatters_by_ft = {
-		javascript = { "prettierd" },
-		typescript = { "prettierd" },
-		javascriptreact = { "prettierd" },
-		typescriptreact = { "prettierd" },
+		javascript = { "biome", "prettierd", stop_after_first = true },
+		typescript = { "biome", "prettierd", stop_after_first = true },
+		javascriptreact = { "biome", "prettierd", stop_after_first = true },
+		typescriptreact = { "biome", "prettierd", stop_after_first = true },
+		jsonc = { "biome" },
+		json = { "prettierd" },
 		css = { "prettierd" },
 		html = { "prettierd" },
-		json = { "prettierd" },
 		yaml = { "prettierd" },
 		markdown = { "prettierd" },
 		lua = { "stylua" },
