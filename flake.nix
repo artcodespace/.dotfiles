@@ -1,4 +1,5 @@
 {
+  # To upgrade after changes: `nix profile upgrade --all`
   description = "For use with nix profile";
 
   inputs = {
