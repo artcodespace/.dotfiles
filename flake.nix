@@ -59,8 +59,6 @@
             stylua
             nixd
             alejandra
-            go
-            gopls
             unstablePkgs.beam27Packages.expert
           ]
           ++ (
