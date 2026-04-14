@@ -32,7 +32,6 @@ local function broadcast_scheme_to_nvim(system_appearance)
 	-- lsof ...           <-- find all -UNIX domain socket files AND called nvim
 	-- awk ... | sort ... <-- skip the header row and find rows where last column ends /nvim.<pid>.0, deduplicate
 	-- xargs ...          <-- for each socket path, run a command in the nvim server to set background
-	-- This depends on neovim having an AutoCmd that watches `OptionSet` for `background` to reset the scheme
 	w.run_child_process({
 		"bash",
 		"-c",
