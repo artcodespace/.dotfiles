@@ -1,4 +1,0 @@
-format = "[󰇥](yellow) $directory$git_branch$git_status\n$character"
-
-[directory]
-truncate_to_repo = false

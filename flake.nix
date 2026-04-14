@@ -35,7 +35,6 @@
             stow
             wezterm
             tmux
-            starship
             direnv
             nix-direnv
             neovim
