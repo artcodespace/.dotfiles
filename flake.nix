@@ -33,6 +33,7 @@
         paths = with pkgs;
           [
             # COMMON
+            fish
             stow
             wezterm
             tmux
