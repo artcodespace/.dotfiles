@@ -42,8 +42,8 @@ if test -f ~/.secrets
     end < ~/.secrets
 end
 
-if test -f ~/.config/fish/local.fish
-    source ~/.config/fish/local.fish
+if test -f ~/.config/fish/config.local.fish
+    source ~/.config/fish/config.local.fish
 end
 
 direnv hook fish | source

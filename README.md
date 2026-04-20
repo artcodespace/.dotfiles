@@ -23,10 +23,12 @@ nix profile install ~/.dotfiles
 3. Stow the config folders:
 
 ```bash
-cd ~/.dotfiles && stow nvim tmux wezterm starship direnv zsh
+cd ~/.dotfiles && stow nvim tmux wezterm starship direnv [fish | zsh | bash]
 ```
 
-Note that `.zshrc` will attempt to read from `.zshrc.local`. Use the local file to store system specific shell stuff.
+Note that the shellrc files are designed to read local system spec from a sibling `.shellrc.local` file for local configuration mutations (to handle things like nvm, brew etc.).
+
+They also assume secrets are kept in `~/.secrets` in the form `export SECRET=VALUE`.
 
 # TODO
 
