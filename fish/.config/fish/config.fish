@@ -16,7 +16,7 @@ function fish_prompt
     set -l branch (git branch --show-current 2>/dev/null)
     echo -n (set_color $c_icon)$i_duck' '(set_color $c_path)(prompt_pwd)
     if test -n "$branch"
-        echo -n (set_color $c_branch)$i_branch' '$branch
+        echo -n (set_color $c_branch)' '$i_branch' '$branch
     end
     set_color normal
     echo
