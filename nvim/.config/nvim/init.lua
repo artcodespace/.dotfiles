@@ -165,3 +165,46 @@ vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.opt.winbar = "%{%v:lua.WinBar()%}"
 vim.opt.winborder = "rounded"
+
+-- ## SCRATCH
+---@param name string the name for feedback and the qf list
+---@param root_list string[] pattern for identifying project root
+---@param command_list string[] the command to run
+---@param efm string the error format string see :errorformat
+local function async_to_qf(name, root_list, command_list, efm)
+	local root = vim.fs.root(0, root_list)
+	if not root then
+		vim.notify(name .. ": no root found", vim.log.levels.ERROR)
+		return
+	end
+	vim.notify(name .. ": running compiler from " .. root .. "...")
+	vim.system(
+		command_list,
+		{ text = true, cwd = root },
+		vim.schedule_wrap(function(o)
+			local stdout = vim.trim(o.stdout or "")
+			vim.fn.setqflist({}, " ", {
+				title = name .. " output",
+				lines = stdout ~= "" and vim.split(stdout, "\n") or {},
+				efm = efm,
+			})
+			local items = vim.fn.getqflist()
+			if vim.tbl_isempty(items) then
+				vim.notify(name .. ": no errors")
+				vim.cmd("cclose")
+			else
+				vim.notify(name .. ": " .. #items .. " error" .. (#items == 1 and "" or "s") .. " sent to qf.")
+				vim.cmd("copen")
+			end
+		end)
+	)
+end
+
+vim.api.nvim_create_user_command("Tsc", function()
+	async_to_qf(
+		"Tsc",
+		{ "package.json" },
+		{ "bun", "tsc", "--noEmit" },
+		"%f(%l\\,%c): %trror %m,%f(%l\\,%c): %tarning %m,%-G%m"
+	)
+end, {})
