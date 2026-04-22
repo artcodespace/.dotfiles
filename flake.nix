@@ -1,5 +1,5 @@
 {
-  # To upgrade after changes: `nix profile upgrade --all`
+  # To upgrade after changes: `nix profile upgrade dotfiles`
   description = "For use with nix profile";
 
   inputs = {
@@ -33,7 +33,6 @@
         paths = with pkgs;
           [
             # COMMON
-            fish
             stow
             wezterm
             tmux
