@@ -17,7 +17,7 @@ cd && git clone --recurse-submodules https://github.com/artcodespace/.dotfiles.g
 2. Install dependencies using nix:
 
 ```bash
-nix profile install ~/.dotfiles
+nix profile add ~/.dotfiles
 ```
 
 3. Stow the config folders:

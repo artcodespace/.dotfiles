@@ -38,7 +38,7 @@
             tmux
             direnv
             nix-direnv
-            neovim
+            unstablePkgs.neovim
             fzf
             lazygit
             ripgrep
