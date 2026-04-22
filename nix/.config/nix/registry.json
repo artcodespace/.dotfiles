@@ -1,0 +1,15 @@
+{
+  "flakes": [
+    {
+      "from": {
+        "id": "dotfiles",
+        "type": "indirect"
+      },
+      "to": {
+        "type": "git",
+        "url": "file:///Users/alunturner/.dotfiles"
+      }
+    }
+  ],
+  "version": 2
+}
