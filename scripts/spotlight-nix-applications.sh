@@ -12,5 +12,6 @@ for SRC in "$HOME/.nix-profile/Applications"/*.app; do
   else
     ln -s "$SRC" "$DEST"
     echo "linked: $NAME"
+    mdimport "$DEST"
   fi
 done
