@@ -15,3 +15,5 @@ for SRC in "$HOME/.nix-profile/Applications"/*.app; do
     mdimport "$DEST"
   fi
 done
+
+# note that if you want to force spotlight reindex, try `sudo mdutil -E /`
