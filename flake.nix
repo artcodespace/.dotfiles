@@ -35,7 +35,7 @@
             # COMMON
             stow
             wezterm
-            ghostty
+            ghostty-bin
             tmux
             direnv
             nix-direnv
