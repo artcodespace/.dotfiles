@@ -1,5 +1,5 @@
 {
-  # To upgrade after changes: `nix profile upgrade dotfiles`
+  # To upgrade after changes: `nix profile upgrade <name from nix profile list>`
   description = "For use with nix profile";
 
   inputs = {
