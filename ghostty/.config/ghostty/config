@@ -4,6 +4,6 @@ font-size = 15
 macos-icon = retro
 theme = dark:pax-dark,light:pax-light
 window-padding-x = 0
-window-padding-y = 10
+window-padding-y = 0
 window-padding-color = extend
 window-decoration = none
