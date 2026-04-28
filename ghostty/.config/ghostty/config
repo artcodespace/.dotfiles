@@ -1,5 +1,6 @@
 shell-integration-features = no-cursor
 cursor-style = block
+font-feature = -calt,-liga,-dlig
 font-size = 15
 macos-icon = retro
 theme = dark:pax-dark,light:pax-light
