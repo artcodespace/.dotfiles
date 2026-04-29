@@ -11,7 +11,7 @@ done
 # Exit if we can't find any valid file.
 [[ -f "${config:-}" ]] || { echo "No $ext files found"; exit 1; }
 
-# Name is either what user passes or the <name> from the config file.
-session=${1:-$(basename "$config" $ext)}
+# Name is either first arg or the <name> from the config file.
+session=${1:-$(basename "$config" "$ext")}
 echo "$session"
 echo "$config"
