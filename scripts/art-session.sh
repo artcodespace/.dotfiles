@@ -11,7 +11,15 @@ done
 # Exit if we can't find any valid file.
 [[ -f "${config:-}" ]] || { echo "No $ext files found"; exit 1; }
 
-# Name is either first arg or the <name> from the config file.
+# Session name first arg or the config file name with extension stripped.
 session=${1:-$(basename "$config" "$ext")}
+
+if tmux has-session -t "$session" 2>/dev/null; then
+  echo "$session already exists"
+  tmux attach -t "$session"
+  exit 0
+fi
+
+
 echo "$session"
 echo "$config"
