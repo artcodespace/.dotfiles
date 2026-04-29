@@ -6,9 +6,7 @@ for FILE in "$PWD"/*.tmux "$HOME"/*.tmux; do
   test -f "$FILE" && LAYOUT=$FILE && break
 done
 
-if [[ ! -f "$LAYOUT" ]]; then
-  echo "unable to find any files"
-  exit 1
-fi
+# Exit if we can't find anything
+[[ ! -f "${LAYOUT:-}" ]] || { echo "No .tmux files found"; exit 1; }
 
 echo "$LAYOUT"
