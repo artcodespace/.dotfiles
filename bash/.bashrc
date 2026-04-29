@@ -25,6 +25,7 @@ PROMPT_COMMAND="_set_prompt"
 
 [[ -f ~/.bashrc.local ]] && source ~/.bashrc.local
 [[ -f ~/.secrets ]] && source ~/.secrets
+export PATH="$HOME/.dotfiles/scripts:$PATH"
 
 eval "$(direnv hook bash)"
 source <(fzf --bash)
