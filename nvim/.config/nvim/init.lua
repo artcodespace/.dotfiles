@@ -162,6 +162,7 @@ vim.opt.guicursor:append({ "a:Cursor" }) -- append hl-Cursor to all modes
 vim.opt.ignorecase = true
 vim.opt.laststatus = 0
 vim.opt.number = true
+vim.opt.pumborder = "rounded"
 vim.opt.ruler = false
 vim.opt.sidescrolloff = 7
 vim.opt.signcolumn = "no"
