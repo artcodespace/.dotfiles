@@ -27,7 +27,7 @@ vim.diagnostic.config({
 		end,
 	},
 })
-vim.lsp.enable({ "lua_ls", "ts_ls", "biome", "eslint", "cssls", "expert", "nixd" })
+vim.lsp.enable({ "bashls", "lua_ls", "ts_ls", "biome", "eslint", "cssls", "expert", "nixd" })
 vim.cmd("colorscheme pax")
 
 -- ## PLUGINS.FZF-LUA
