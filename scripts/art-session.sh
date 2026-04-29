@@ -29,6 +29,10 @@ else
   tmux new-session -s "$session" -d
 fi
 
+while read -r thing; do
+  echo "$thing"
+done < $config
+
 
 echo "$session"
 echo "$config"
