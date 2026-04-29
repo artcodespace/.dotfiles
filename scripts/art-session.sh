@@ -3,10 +3,10 @@ set -euo pipefail
 
 tmux_switch_or_attach() {
   local session="$1"
-  if [[ -n "$TMUX" ]]; then
+  if [[ -n "${TMUX:-}" ]]; then
     tmux switch-client -t "$session"
   else
-    tmux attach-session-t "$session"
+    tmux attach-session -t "$session"
   fi
 }
 
@@ -23,8 +23,7 @@ done
 session=${1:-$(basename "$config" "$ext")}
 
 if tmux has-session -t "$session" 2>/dev/null; then
-  echo "$session already exists"
-  tmux attach -t "$session"
+  tmux_switch_or_attach "$session"
   exit 0
 fi
 
