@@ -7,6 +7,6 @@ for FILE in "$PWD"/*.tmux "$HOME"/*.tmux; do
 done
 
 # Exit if we can't find anything
-[[ ! -f "${LAYOUT:-}" ]] || { echo "No .tmux files found"; exit 1; }
+[[ -f "${LAYOUT:-}" ]] || { echo "No .tmux files found"; exit 1; }
 
 echo "$LAYOUT"
