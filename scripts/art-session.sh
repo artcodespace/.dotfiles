@@ -20,11 +20,13 @@ done
 [[ -f "${config:-}" ]] || { echo "No $ext files found"; exit 1; }
 
 # Session name first arg or the config file name with extension stripped.
-session=${1:-$(basename "$config" "$ext")}
+session=${1:-$(basename "$config" "$ext" | tr . -)}
 
 if tmux has-session -t "$session" 2>/dev/null; then
   tmux_switch_or_attach "$session"
   exit 0
+else
+  tmux new-session -s "$session" -d
 fi
 
 
