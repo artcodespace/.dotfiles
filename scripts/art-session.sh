@@ -10,17 +10,16 @@ tmux_switch_or_attach() {
   fi
 }
 
-# Look in pwd or home for <name>.tmux files.
 ext=".tmux"
-for file in "$PWD"/*"$ext" "$HOME"/*"$ext"; do
-  test -f "$file" && config=$file && break
-done
+config="${1:-}"
 
-# Exit if we can't find any valid file.
-[[ -f "${config:-}" ]] || { echo "No $ext files found"; exit 1; }
+# Exit with `Usage` if no config argument passed, if incorrect extension, or error if file not found.
+[[ -n "$config" ]] || { echo "Usage: $(basename "$0") <layout-file>"; exit 1;}
+[[ "$config" == *"$ext" ]] || { echo "Usage: config file must use .tmux extension"; exit 1;}
+[[ -f "$config" ]] || { echo "Error: unable to find file $config"; exit 1;}
 
-# Session name first arg or the config file name with extension stripped.
-session=${1:-$(basename "$config" "$ext" | tr . -)}
+# Session name is (optional) second arg, defaulting to config with extension stripped.
+session=${2:-$(basename "$config" "$ext" | tr . -)}
 
 if tmux has-session -t "$session" 2>/dev/null; then
   tmux_switch_or_attach "$session"
@@ -31,7 +30,7 @@ fi
 
 while read -r thing; do
   echo "$thing"
-done < $config
+done < "$config"
 
 
 echo "$session"
