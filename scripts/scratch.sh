@@ -18,7 +18,13 @@ while read -r first second third; do
   if [[ "$first" == "window"* ]]; then
     # Validate the required input
     [[ -n "$second" ]] || { echo "Usage: window <window-name>, line $line"; exit 1; }
-    echo "window >>> $first $second $third"
+    
+    # Update active window if required
+    [[ "$first" == *"*" ]] && active_window=$second
+
+
+
+    echo "window >>> $first $second $third $active_window"
   elif [[ "$first" == "pane"* ]]; then
     echo "pane >>> $first $second $third"
   else

@@ -9,10 +9,6 @@
 # - pane const
 # - (*) const
 # - command string
-window* 
-pane* lazygit
-pane nvim
-
 window* first-one horizontal
 pane* lazygit
 pane nvim
