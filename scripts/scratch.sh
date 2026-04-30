@@ -45,10 +45,11 @@ while read -r first second third; do
     [[ "$first" == *"*" ]] && active_pane=$current_pane
 
     # Add a pane
-    echo "pane command >>> tmux split-window -t \"$session\":\"$current_window\" $current_orientation"
+    echo "pane command >>> tmux split-window -t $current_orientation \"$session\":\"$current_window\""
 
     current_pane=$((current_pane + 1))
   else
-    echo "can not parse"
+    echo "Error: invalid input, line $line"
+    exit 1
   fi
 done < "$PWD"/test.tmux

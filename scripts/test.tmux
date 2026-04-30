@@ -13,6 +13,7 @@ window* first-one horizontal
 pane* lazygit
 pane nvim
 
+hello!
 window second-one vertical
 pane top
 pane
