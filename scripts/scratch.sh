@@ -4,6 +4,7 @@ set -euo pipefail
 active_window=""
 active_pane=""
 line=0
+session="test" # will be available in scope in real call
 
 # first: window(*)
 # - second: window-name
@@ -22,9 +23,9 @@ while read -r first second third; do
     # Update active window if required
     [[ "$first" == *"*" ]] && active_window=$second
 
+    # Add a window
 
-
-    echo "window >>> $first $second $third $active_window"
+    echo "window command >>> tmux new-window -a -t $session -n $second -c $PWD"
   elif [[ "$first" == "pane"* ]]; then
     echo "pane >>> $first $second $third"
   else
