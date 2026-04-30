@@ -7,5 +7,6 @@ set -euo pipefail
 # first: pane(*)
 # - second?: command
 while read -r first second third; do
+  [[ "$first" == "#"* ]] && continue
   echo "$first $second $third"
 done < "$PWD"/test.tmux
