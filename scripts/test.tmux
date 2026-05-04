@@ -1,4 +1,3 @@
-# TODO >>> figure out the desired structure!
 # STRUCTURE, in parens is optional
 # window(*) window-name (layout)
 # - window const
