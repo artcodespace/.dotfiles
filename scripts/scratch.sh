@@ -34,10 +34,12 @@ while read -r first second third; do
   [[ -z "$first" || "$first" == "#"* ]] && continue
 
   if [[ "$first" == "window"* ]]; then
-    is_first_pane=true
     # first: window(*)
     # - second: window-name
     # - third?: horizontal | vertical
+
+    # Reinitialise the first pane tracking variable
+    is_first_pane=true
 
     # Maybe update active window
     [[ "$first" == *"*" ]] && active_window=$second
@@ -54,10 +56,13 @@ while read -r first second third; do
       echo "window command >>> tmux rename-window -t $session $second"
       is_first_window=false
     else
+      # Maybe flush the active pane to set it on the previous window
+    [[ -n "$active_pane" ]] && echo "select pane >>> tmux select-pane -t $session:$current_window.$active_pane"
       echo "window command >>> tmux new-window -t $session -n $second -c $PWD"
     fi
 
-    # Set current window and reset pane count
+    #  Set current_window and reset active_pane and current_pane
+    active_pane=""
     current_window="$second"
     current_pane=1
   elif [[ "$first" == "pane"* ]]; then
@@ -78,3 +83,9 @@ while read -r first second third; do
     current_pane=$((current_pane + 1))
   fi
 done < "$PWD"/test.tmux
+
+# Maybe flush active pane for last window
+[[ -n "$active_pane" ]] && echo "select pane >>> tmux select-pane -t $session:$current_window.$active_pane"
+
+# Maybe flush active window
+[[ -n "$active_window" ]] && echo "select window >>> tmux select-window -t $session:$active_window"
