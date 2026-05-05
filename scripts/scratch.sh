@@ -34,6 +34,7 @@ while read -r first second third; do
   [[ -z "$first" || "$first" == "#"* ]] && continue
 
   if [[ "$first" == "window"* ]]; then
+    is_first_pane=true
     # first: window(*)
     # - second: window-name
     # - third?: horizontal | vertical
@@ -67,7 +68,12 @@ while read -r first second third; do
     [[ "$first" == *"*" ]] && active_pane=$current_pane
 
     # Add a pane
-    echo "pane command >>> tmux split-window $current_orientation -t \"$session\":\"$current_window\""
+    if [[ "$is_first_pane" == true ]]; then
+      echo "pane command >>> tmux send-keys -t $session:$current_window:$current_pane ${second:-} C-m"
+      is_first_pane=false
+    else
+      echo "pane command >>> tmux split-window $current_orientation -t \"$session\":\"$current_window\" -d ${second:-}"
+    fi
 
     current_pane=$((current_pane + 1))
   fi
