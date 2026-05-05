@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-active_window="" # must be set after creating all windows
-active_pane="" # must be set after creating all panes inside a window
-line=0 # used to track current line for error parsing
-current_orientation="-v" # tracked per window for pane creation
-is_first_window=true # to allow us to use the first window
-current_window="" # tracks the current window name for pane creation
-is_first_pane=true # to allow us to use the first pane
-current_pane=1 # tracked to let us activate the correct pane, depends on tmux config settings
-session="test" # will be available in scope in real call
+active_window=""          # must be set after creating all windows
+active_pane=""            # must be set after creating all panes inside a window
+line=0                    # used to track current line for error parsing
+current_orientation="-v"  # tracked per window for pane creation
+is_first_window=true      # to allow us to use the first window
+current_window=""         # tracks the current window name for pane creation
+is_first_pane=true        # to allow us to use the first pane
+current_pane=1            # tracked to let us activate the correct pane, depends on tmux config settings
+session="test"            # will be available in scope in real call
 
 # CHECK FOR ERRORS
 while read -r first second third; do
@@ -49,7 +49,12 @@ while read -r first second third; do
     fi
 
     # Add a window
-    echo "window command >>> tmux new-window -a -t $session -n $second -c $PWD"
+    if [[ "$is_first_window" == true ]]; then
+      echo "window command >>> tmux rename-window -t $session $second"
+      is_first_window=false
+    else
+      echo "window command >>> tmux new-window -t $session -n $second -c $PWD"
+    fi
 
     # Set current window and reset pane count
     current_window="$second"
