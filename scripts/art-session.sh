@@ -74,12 +74,12 @@ while read -r first second third; do
 
     # Maybe add a window
     if [[ "$is_first_window" == true ]]; then
-      tmux rename-window -t "$session" "$window_name"
+      tmux rename-window -t "${session}:" "$window_name"
       is_first_window=false
     else
       # Maybe flush the active pane to set it on the previous window
       [[ -n "$active_pane_num" ]] && tmux select-pane -t "$session":"$current_window_name"."$active_pane_num"
-      tmux new-window -t "$session" -n "$window_name" -c "$PWD"
+      tmux new-window -t "${session}:" -n "$window_name" -c "$PWD"
     fi
 
     #  Update variables
@@ -93,7 +93,7 @@ while read -r first second third; do
 
     # Maybe add a pane
     if [[ "$is_first_pane" == true ]]; then
-      [[ -n "$pane_command" ]] && tmux send-keys -t "$session":"$current_window_name":"$current_pane_num" "$pane_command" C-m
+      [[ -n "$pane_command" ]] && tmux send-keys -t "$session":"$current_window_name"."$current_pane_num" "$pane_command" C-m
       is_first_pane=false
     else
       if [[ -n "$pane_command" ]]; then
