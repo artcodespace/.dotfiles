@@ -74,12 +74,12 @@ while read -r first second third; do
 
     # Maybe add a window
     if [[ "$is_first_window" == true ]]; then
-      echo "window command >>> tmux rename-window -t $session $window_name"
+      tmux rename-window -t "$session" "$window_name"
       is_first_window=false
     else
       # Maybe flush the active pane to set it on the previous window
-      [[ -n "$active_pane_num" ]] && echo "select pane >>> tmux select-pane -t $session:$current_window_name.$active_pane_num"
-      echo "window command >>> tmux new-window -t $session -n $window_name -c $PWD"
+      [[ -n "$active_pane_num" ]] && tmux select-pane -t "$session":"$current_window_name"."$active_pane_num"
+      tmux new-window -t "$session" -n "$window_name" -c "$PWD"
     fi
 
     #  Update variables
@@ -91,19 +91,15 @@ while read -r first second third; do
     # Update active pane if required
     [[ "$first" == *"*" ]] && active_pane_num=$current_pane_num
 
-    # Add a pane
+    # Maybe add a pane
     if [[ "$is_first_pane" == true ]]; then
-      if [[ -n "$pane_command" ]]; then
-        echo "pane command >>> tmux send-keys -t $session:$current_window_name:$current_pane_num $pane_command C-m"
-      else
-        echo "pane command >>> nothing"
-      fi
+      [[ -n "$pane_command" ]] && tmux send-keys -t "$session":"$current_window_name":"$current_pane_num" "$pane_command" C-m
       is_first_pane=false
     else
       if [[ -n "$pane_command" ]]; then
-        echo "pane command >>> tmux split-window $current_orientation -t $session:$current_window_name -d $pane_command"
+        tmux split-window "$current_orientation" -t "$session":"$current_window_name" -d "$pane_command"
       else
-        echo "pane command >>> tmux split-window $current_orientation -t $session:$current_window_name"
+        tmux split-window "$current_orientation" -t "$session":"$current_window_name"
       fi
     fi
 
@@ -112,7 +108,7 @@ while read -r first second third; do
 done < "$PWD"/"$config"
 
 # Maybe flush active pane for last window
-[[ -n "$active_pane_num" ]] && echo "select pane >>> tmux select-pane -t $session:$current_window_name.$active_pane_num"
+[[ -n "$active_pane_num" ]] && tmux select-pane -t "$session":"$current_window_name"."$active_pane_num"
 
 # Maybe flush active window
-[[ -n "$active_window_name" ]] && echo "select window >>> tmux select-window -t $session:$active_window_name"
+[[ -n "$active_window_name" ]] && tmux select-window -t "$session":"$active_window_name"
