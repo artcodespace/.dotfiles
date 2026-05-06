@@ -1,1 +1,3 @@
-# TEST FILE
+window
+pane lazygit
+pane* nvim
