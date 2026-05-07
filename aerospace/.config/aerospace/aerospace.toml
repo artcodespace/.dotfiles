@@ -1,0 +1,83 @@
+  start-at-login = true
+
+  # Default to accordion so a single window fills the laptop screen.
+  # Hit alt-slash to switch a workspace to tiles when on widescreen.
+  default-root-container-layout = 'accordion'
+  default-root-container-orientation = 'auto'
+
+  on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+  on-focus-changed = ['move-mouse window-lazy-center']
+
+  [gaps]
+  inner.horizontal = [{ monitor.built-in = 0 }, 8]
+  inner.vertical   = [{ monitor.built-in = 0 }, 8]
+  outer.left       = [{ monitor.built-in = 0 }, 8]
+  outer.bottom     = [{ monitor.built-in = 0 }, 8]
+  outer.top        = [{ monitor.built-in = 0 }, 8]
+  outer.right      = [{ monitor.built-in = 0 }, 8]
+
+  # App → workspace assignment
+  [[on-window-detected]]
+  if.app-id = 'com.tinyspeck.slackmacgap'
+  run = 'move-node-to-workspace A'
+
+  [[on-window-detected]]
+  if.app-id = 'com.apple.iCal'
+  run = 'move-node-to-workspace A'
+
+  [[on-window-detected]]
+  if.app-id = 'com.mitchellh.ghostty'
+  run = 'move-node-to-workspace W'
+
+  [[on-window-detected]]
+  if.app-id = 'com.google.Chrome'
+  run = 'move-node-to-workspace W'
+
+  [[on-window-detected]]
+  if.app-id = 'com.figma.Desktop'
+  run = 'move-node-to-workspace W'
+
+  [[on-window-detected]]
+  if.app-id = 'com.linear'
+  run = 'move-node-to-workspace A'
+
+  [mode.main.binding]
+  # Layout
+  alt-slash = 'layout tiles horizontal vertical'
+  alt-comma = 'layout accordion horizontal vertical'
+
+  # Focus
+  alt-h = 'focus left'
+  alt-j = 'focus down'
+  alt-k = 'focus up'
+  alt-l = 'focus right'
+
+  # Move window
+  alt-shift-h = 'move left'
+  alt-shift-j = 'move down'
+  alt-shift-k = 'move up'
+  alt-shift-l = 'move right'
+
+  # Resize
+  alt-minus = 'resize smart -50'
+  alt-equal = 'resize smart +50'
+
+  # Workspaces
+  alt-a = 'workspace A'
+  alt-w = 'workspace W'
+  alt-shift-a = 'move-node-to-workspace A'
+  alt-shift-w = 'move-node-to-workspace W'
+  alt-tab = 'workspace-back-and-forth'
+
+  # Service mode (reload, reset, etc.)
+  alt-shift-semicolon = 'mode service'
+
+  # Full screen
+  alt-f = "fullscreen"
+
+  [mode.service.binding]
+  esc = ['reload-config', 'mode main']
+  r = ['flatten-workspace-tree', 'mode main']
+  f = ['layout floating tiling', 'mode main']
+  backspace = ['close-all-windows-but-current', 'mode main']
+
