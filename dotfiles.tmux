@@ -1,0 +1,17 @@
+# Designed to replace this:
+# tmux has-session -t dotfiles
+# 
+# if [ $? != 0 ]; then 
+#   create the session in the .dotfiles folder
+#   tmux new-session -s dotfiles -n git -c ~/.dotfiles -d "lazygit"
+#   tmux new-window -n editor -c ~/.dotfiles "nvim ."
+# fi
+# 
+# tmux attach -t dotfiles
+
+window git
+pane lazygit
+
+window editor vertical
+pane
+pane* nvim
