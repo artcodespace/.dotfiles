@@ -47,6 +47,8 @@
             yazi
             jq
             # LANGUAGES
+            bash-language-server
+            shellcheck
             nodejs_24
             yarn-berry
             typescript
