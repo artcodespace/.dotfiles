@@ -34,7 +34,6 @@
           [
             # COMMON
             stow
-            wezterm
             ghostty-bin
             tmux
             direnv
