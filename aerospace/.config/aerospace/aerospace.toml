@@ -67,17 +67,18 @@
   alt-w = 'workspace W'
   alt-shift-a = 'move-node-to-workspace A'
   alt-shift-w = 'move-node-to-workspace W'
-  alt-tab = 'workspace-back-and-forth'
+  alt-shift-tab = 'workspace-back-and-forth'
+
+  # Custom
+  alt-o = "close-all-windows-but-current"
+  alt-q = "close"
+  alt-z = "fullscreen"
+  alt-tab = "focus-back-and-forth"
 
   # Service mode (reload, reset, etc.)
-  alt-shift-semicolon = 'mode service'
-
-  # Full screen
-  alt-f = "fullscreen"
+  alt-semicolon = 'mode service'
 
   [mode.service.binding]
-  esc = ['reload-config', 'mode main']
-  r = ['flatten-workspace-tree', 'mode main']
-  f = ['layout floating tiling', 'mode main']
-  backspace = ['close-all-windows-but-current', 'mode main']
-
+  r = ['reload-config', 'mode main']
+  f = ['flatten-workspace-tree', 'mode main']
+  l = ['layout floating tiling', 'mode main']
