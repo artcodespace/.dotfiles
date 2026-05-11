@@ -3,7 +3,10 @@ cursor-style = block
 font-family = Berkeley Mono
 font-feature = -calt,-liga,-dlig
 font-size = 15
+keybind = global:cmd+grave_accent=toggle_quick_terminal
 macos-icon = retro
+quick-terminal-position = center
+quick-terminal-size = 50%,50%
 theme = dark:pax-dark,light:pax-light
 window-padding-x = 0
 window-padding-y = 0
