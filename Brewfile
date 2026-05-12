@@ -14,14 +14,13 @@ brew "neovim"
 brew "yazi"
 brew "lazygit"
 
-# Language servers, linters, formatters
+# Language servers, linters, formatters - note no nixd
 brew "bash-language-server"
 brew "shellcheck"
 brew "lua-language-server"
 brew "stylua"
 brew "biome"
 brew "prettierd"
-brew "nixd"
 brew "alejandra"
 
 # GUI
