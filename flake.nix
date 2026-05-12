@@ -68,7 +68,7 @@
             if platform == mac
             then
               # MAC SPECIFIC
-              [aerospace]
+              []
             else []
           )
           ++ (
