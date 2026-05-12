@@ -67,7 +67,7 @@
             # NOTE there is pkgs.stdenv.isDarwin
             if platform == mac
             then
-              # MAC SPECIFIC: TODO add aerospace back in
+              # MAC SPECIFIC
               [aerospace]
             else []
           )
