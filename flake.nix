@@ -68,7 +68,7 @@
             if platform == mac
             then
               # MAC SPECIFIC: TODO add aerospace back in
-              []
+              [aerospace]
             else []
           )
           ++ (
