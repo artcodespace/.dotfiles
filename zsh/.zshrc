@@ -21,5 +21,5 @@ PROMPT='${c_icon}${i_duck} ${c_path}%~${_branch:+ ${c_branch}${i_branch} ${_bran
 [[ -f ~/.secrets ]] && source ~/.secrets
 export PATH="$HOME/.dotfiles/scripts:$PATH"
 
-eval "$(direnv hook zsh)"
+eval "$(mise activate zsh)"
 source <(fzf --zsh)

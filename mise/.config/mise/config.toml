@@ -1,0 +1,8 @@
+[tools]
+node = "24"
+"npm:yarn" = "latest"
+"npm:typescript" = "latest"
+"npm:nodemon" = "latest"
+"npm:eslint" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:typescript-language-server" = "latest"
