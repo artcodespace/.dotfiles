@@ -4,8 +4,8 @@ This repo is designed to be used anywhere by:
 
 - cloning the repo
 - installing the dependencies using:
-  - EITHER nix
-  - OR homebrew
+  - [EITHER nix](https://determinate.systems/nix-installer/)
+  - [OR homebrew](https://brew.sh/)
 - symlinking (stowing) the dotfiles to the correct location
 
 # Tooling configuration steps
@@ -34,7 +34,7 @@ brew bundle --file=~/.dotfiles/Brewfile
 cd ~/.dotfiles && stow aerospace tmux ghostty [nix | mise] nvim [zsh | bash]
 ```
 
-4a. Expose nix applications to spotlight:
+4a. Expose nix applications to spotlight (macOS only):
 
 ```bash
 art-spotlight-nix-applications.sh
@@ -52,7 +52,5 @@ They also assume secrets are kept in `~/.secrets` in the form `export SECRET=VAL
 
 # TODO
 
-- Nix:
-  - look at dir env integration for dev shell investigation work
 - Tmux:
   - figure out worktree workflow
