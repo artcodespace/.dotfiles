@@ -34,14 +34,24 @@ brew bundle --file=~/.dotfiles/Brewfile
 cd ~/.dotfiles && stow aerospace tmux ghostty [nix | mise] nvim [zsh | bash]
 ```
 
+4a. Expose nix applications to spotlight:
+
+```bash
+art-spotlight-nix-applications.sh
+```
+
+4b. Install Mise dependencies if using brew:
+
+```bash
+mise install
+```
+
 Note that the shellrc files are designed to read local system spec from a sibling `.shellrc.local` file for local configuration mutations (to handle things like nvm, brew etc.).
 
 They also assume secrets are kept in `~/.secrets` in the form `export SECRET=VALUE`.
 
 # TODO
 
-- Aerospace:
-  - setup for general work/admin split
 - Nix:
   - look at dir env integration for dev shell investigation work
 - Tmux:
