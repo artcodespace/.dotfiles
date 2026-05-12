@@ -27,6 +27,5 @@ PROMPT_COMMAND="_set_prompt"
 [[ -f ~/.secrets ]] && source ~/.secrets
 export PATH="$HOME/.dotfiles/scripts:$PATH"
 
-eval "$(direnv hook bash)"
 eval "$(mise activate bash)"
 source <(fzf --bash)

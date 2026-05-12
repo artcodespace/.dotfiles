@@ -31,7 +31,7 @@ brew bundle --file=~/.dotfiles/Brewfile
 3. Stow the config folders:
 
 ```bash
-cd ~/.dotfiles && stow aerospace tmux ghostty [nix | mise] direnv nvim [zsh | bash]
+cd ~/.dotfiles && stow aerospace tmux ghostty [nix | mise] nvim [zsh | bash]
 ```
 
 Note that the shellrc files are designed to read local system spec from a sibling `.shellrc.local` file for local configuration mutations (to handle things like nvm, brew etc.).

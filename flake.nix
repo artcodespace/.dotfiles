@@ -36,8 +36,6 @@
             stow
             ghostty-bin
             tmux
-            direnv
-            nix-direnv
             unstablePkgs.neovim
             fzf
             lazygit
