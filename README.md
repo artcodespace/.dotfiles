@@ -3,7 +3,9 @@
 This repo is designed to be used anywhere by:
 
 - cloning the repo
-- using the flake to install dependencies with nix
+- installing the dependencies using:
+  - EITHER nix
+  - OR homebrew
 - symlinking (stowing) the dotfiles to the correct location
 
 # Tooling configuration steps
@@ -14,7 +16,7 @@ This repo is designed to be used anywhere by:
 cd && git clone --recurse-submodules https://github.com/artcodespace/.dotfiles.git
 ```
 
-2. Install dependencies using nix:
+2a. Install dependencies using nix:
 
 ```bash
 nix profile add ~/.dotfiles
