@@ -28,4 +28,5 @@ PROMPT_COMMAND="_set_prompt"
 export PATH="$HOME/.dotfiles/scripts:$PATH"
 
 eval "$(direnv hook bash)"
+eval "$(mise activate bash)"
 source <(fzf --bash)

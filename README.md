@@ -16,16 +16,22 @@ This repo is designed to be used anywhere by:
 cd && git clone --recurse-submodules https://github.com/artcodespace/.dotfiles.git
 ```
 
-2a. Install dependencies using nix:
+2a. Install nix then use that for dependencies:
 
 ```bash
 nix profile add ~/.dotfiles
 ```
 
+2b. Install Homebrew then use that for dependencies:
+
+```bash
+brew bundle --file=~/.dotfiles/Brewfile
+```
+
 3. Stow the config folders:
 
 ```bash
-cd ~/.dotfiles && stow aerospace tmux ghostty nix direnv nvim [zsh | bash]
+cd ~/.dotfiles && stow aerospace tmux ghostty [nix | mise] direnv nvim [zsh | bash]
 ```
 
 Note that the shellrc files are designed to read local system spec from a sibling `.shellrc.local` file for local configuration mutations (to handle things like nvm, brew etc.).
