@@ -87,7 +87,7 @@ while read -r first second third; do
     current_window_name="$window_name"
     current_pane_num=1
   elif [[ "$first" == "pane"* ]]; then
-    pane_command=${second:-}
+    pane_command="${second:-}${third:-}"
     # Update active pane if required
     [[ "$first" == *"*" ]] && active_pane_num=$current_pane_num
 
