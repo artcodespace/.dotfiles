@@ -1,10 +1,5 @@
   start-at-login = true
 
-  # Default to accordion so a single window fills the laptop screen.
-  # Hit alt-slash to switch a workspace to tiles when on widescreen.
-  default-root-container-layout = 'accordion'
-  default-root-container-orientation = 'auto'
-
   on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
   on-focus-changed = ['move-mouse window-lazy-center']
 
@@ -19,27 +14,27 @@
   # App → workspace assignment
   [[on-window-detected]]
   if.app-id = 'com.tinyspeck.slackmacgap'
-  run = 'move-node-to-workspace A'
+  run = 'move-node-to-workspace S'
 
   [[on-window-detected]]
   if.app-id = 'com.apple.iCal'
-  run = 'move-node-to-workspace A'
+  run = 'move-node-to-workspace C'
 
   [[on-window-detected]]
   if.app-id = 'com.mitchellh.ghostty'
-  run = 'move-node-to-workspace W'
+  run = 'move-node-to-workspace T'
 
   [[on-window-detected]]
   if.app-id = 'com.google.Chrome'
-  run = 'move-node-to-workspace W'
+  run = 'move-node-to-workspace B'
 
   [[on-window-detected]]
   if.app-id = 'com.figma.Desktop'
-  run = 'move-node-to-workspace W'
+  run = 'move-node-to-workspace F'
 
   [[on-window-detected]]
   if.app-id = 'com.linear'
-  run = 'move-node-to-workspace A'
+  run = 'move-node-to-workspace P'
 
   [mode.main.binding]
   # Layout
@@ -63,17 +58,26 @@
   alt-equal = 'resize smart +50'
 
   # Workspaces
-  alt-a = 'workspace A'
-  alt-w = 'workspace W'
-  alt-shift-a = 'move-node-to-workspace A'
-  alt-shift-w = 'move-node-to-workspace W'
-  alt-shift-tab = 'workspace-back-and-forth'
+  alt-s = 'workspace S'
+  alt-c = 'workspace C'
+  alt-t = 'workspace T'
+  alt-space = 'workspace T'
+  alt-b = 'workspace B'
+  alt-f = 'workspace F'
+  alt-p = 'workspace P'
+  alt-shift-s = 'move-node-to-workspace S'
+  alt-shift-c = 'move-node-to-workspace C'
+  alt-shift-t = 'move-node-to-workspace T'
+  alt-shift-space = 'move-node-to-workspace T'
+  alt-shift-b = 'move-node-to-workspace B'
+  alt-shift-f = 'move-node-to-workspace F'
+  alt-shift-p = 'move-node-to-workspace P'
+  alt-tab = 'workspace-back-and-forth'
 
   # Custom
   alt-o = "close-all-windows-but-current"
   alt-q = "close"
   alt-z = "fullscreen"
-  alt-tab = "focus-back-and-forth"
 
   # Service mode (reload, reset, etc.)
   alt-semicolon = 'mode service'
@@ -81,5 +85,3 @@
   [mode.service.binding]
   esc = 'mode main'
   r = ['reload-config', 'mode main']
-  f = ['flatten-workspace-tree', 'mode main']
-  l = ['layout floating tiling', 'mode main']
