@@ -79,6 +79,7 @@
   alt-semicolon = 'mode service'
 
   [mode.service.binding]
+  esc = 'mode main'
   r = ['reload-config', 'mode main']
   f = ['flatten-workspace-tree', 'mode main']
   l = ['layout floating tiling', 'mode main']
