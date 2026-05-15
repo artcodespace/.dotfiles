@@ -27,5 +27,5 @@ PROMPT_COMMAND="_set_prompt"
 [[ -f ~/.secrets ]] && source ~/.secrets
 export PATH="$HOME/.dotfiles/scripts:$PATH"
 
-eval "$(mise activate bash)"
-source <(fzf --bash)
+command -v mise &>/dev/null && eval "$(mise activate bash)"
+command -v fzf &>/dev/null && source <(fzf --bash)
