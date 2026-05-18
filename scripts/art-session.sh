@@ -9,6 +9,7 @@ config="${1:-}"
 [[ -n "$config" ]] || { echo "Usage: $(basename "$0") <layout-file>"; exit 1;}
 [[ "$config" == *"$ext" ]] || { echo "Usage: config file must use .tmux extension"; exit 1;}
 [[ -f "$config" ]] || { echo "Error: unable to find file $config"; exit 1;}
+[[ "$config" = /* ]] && resolved="$config" || resolved="$PWD/$config"
 
 # Session name is (optional) second arg, defaulting to config with extension stripped.
 session=${2:-$(basename "$config" "$ext" | tr . -)}
@@ -40,7 +41,7 @@ while read -r first second third; do
     echo "Error: invalid input, line $line"
     exit 1
   fi
-done < "$PWD"/"$config"
+done < "$resolved"
 
 active_window_name=""     # update when parsing, set after parsing
 active_pane_num=""        # update when parsing, set on _previous_ window before creating a new one
@@ -87,7 +88,7 @@ while read -r first second third; do
     current_window_name="$window_name"
     current_pane_num=1
   elif [[ "$first" == "pane"* ]]; then
-    pane_command="${second:-}${third:-}"
+    pane_command="${second:-} ${third:-}"
     # Update active pane if required
     [[ "$first" == *"*" ]] && active_pane_num=$current_pane_num
 
@@ -105,7 +106,7 @@ while read -r first second third; do
 
     current_pane_num=$((current_pane_num + 1))
   fi
-done < "$PWD"/"$config"
+done < "$resolved"
 
 # Maybe flush active pane for last window
 [[ -n "$active_pane_num" ]] && tmux select-pane -t "$session":"$current_window_name"."$active_pane_num"

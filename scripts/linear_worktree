@@ -1,48 +1,34 @@
 #!/usr/bin/env bash
-tmux_switch_or_attach() {
-  local session="$1"
-  if [ -n "$TMUX" ]; then
-    tmux switch-client -t "$session"
-  else
-    tmux attach-session -t "$session"
-  fi
-}
 
 # NAMING:
-# linear name: RVR-12345
-# branch: art/<commit-type>/rvr-12345-free-description
-# worktree dir: ~/code/altowt/rvr-12345
+# linear id:    RVR-12345
+# branch:       art/rvr-12345-free-description
+# worktree dir: ~/code/altowt/art/rvr-12345-free-description  (chosen by `alto worktree new`)
 # tmux session: rvr-12345
 
 selected=$(
   curl -s -X POST https://api.linear.app/graphql \
-  -H "Authorization: $LINEAR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{ "query": "{ viewer { assignedIssues { nodes { identifier title } } } }"}' \
+    -H "Authorization: $LINEAR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{ "query": "{ viewer { assignedIssues(filter: { state: { type: { nin: [\"started\", \"completed\", \"canceled\"] } } }) { nodes { identifier title } } } }"}' \
   | jq -r '.data.viewer.assignedIssues.nodes[] | "\(.identifier)\t\(.title)"' \
   | fzf --delimiter='\t'
-  ) 
+)
+
+[[ -z "$selected" ]] && exit 1
 
 id=$(echo "$selected" | cut -f1)
-title=$(echo "$selected" | cut -f2)
-
-commit_type=$(printf 'build\nchore\nci\ndocs\nfeat\nfix\nperf\nrefactor\nrevert\nstyle\ntest\n' | fzf --prompt="commit type: ")
 
 read -p "Short description: " description
+[[ -z "$description" ]] && exit 1
 
 id_slug=$(echo "$id" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 desc_slug=$(echo "$description" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
-branch="art/${commit_type}/${id_slug}-${desc_slug}"
+branch="art/${id_slug}-${desc_slug}"
 
 if ! tmux has-session -t "$id_slug" 2>/dev/null; then
-  wt_path=~/code/altowt/"$id_slug"
-  git -C ~/code/alto worktree add "$wt_path" -b "$branch"
-  (cd "$wt_path" && alto worktree.setup)
-
-  tmux new-session -s "$id_slug" -n git -c "$wt_path" -d "lazygit"
-  tmux split-window -t "$id_slug:git" -h -c "$wt_path"
-  tmux new-window -t "$id_slug" -n editor -c "$wt_path" "nvim ."
-  tmux split-window -t "$id_slug:editor" -h -c "$wt_path" "claude"
+  wt_path=$(cd ~/code/alto && ./bin/alto worktree new "$branch" --print-path)
+  cd "$wt_path" || exit 1
 fi
 
-tmux_switch_or_attach "$id_slug"
+art-session.sh ~/code/layouts/alto.tmux "$id_slug"
