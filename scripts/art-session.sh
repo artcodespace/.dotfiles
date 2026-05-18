@@ -113,3 +113,5 @@ done < "$resolved"
 
 # Maybe flush active window
 [[ -n "$active_window_name" ]] && tmux select-window -t "$session":"$active_window_name"
+
+echo "Created session $session. Attach with: tmux attach -t $session"
