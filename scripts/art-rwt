@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+selected=$(
+  git -C ~/code/alto worktree list \
+  | grep '/altowt/' \
+  | fzf
+)
+
+[[ -z "$selected" ]] && exit 1
+
+wt_path=$(echo "$selected" | awk '{print $1}')
+session=$(echo "$selected" | awk '{print $NF}' | tr -d '[]' | sed -E 's|^art/(rvr-[0-9]+).*|\1|')
+
+read -p "Remove worktree '$wt_path'? [y/N] " confirm
+[[ "$confirm" =~ ^[Yy]$ ]] || exit 1
+
+git -C ~/code/alto worktree remove "$wt_path" || exit 1
+tmux kill-session -t "$session" 2>/dev/null

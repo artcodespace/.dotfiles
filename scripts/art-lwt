@@ -31,4 +31,4 @@ if ! tmux has-session -t "$id_slug" 2>/dev/null; then
   cd "$wt_path" || exit 1
 fi
 
-art-session.sh ~/code/layouts/alto.tmux "$id_slug"
+art-session ~/code/layouts/alto.tmux "$id_slug"

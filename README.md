@@ -37,7 +37,7 @@ cd ~/.dotfiles && stow aerospace tmux ghostty [nix | mise] nvim [zsh | bash]
 4a. Expose nix applications to spotlight (macOS only):
 
 ```bash
-art-spotlight-nix-applications.sh
+art-spotlight-nix-applications
 ```
 
 4b. Install Mise dependencies if using brew:
