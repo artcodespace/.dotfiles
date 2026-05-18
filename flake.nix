@@ -33,6 +33,7 @@
         paths = with pkgs;
           [
             # COMMON
+            gh
             stow
             ghostty-bin
             tmux
@@ -66,7 +67,7 @@
             if platform == mac
             then
               # MAC SPECIFIC
-              [aerospace]
+              [unstablePkgs.aerospace]
             else []
           )
           ++ (

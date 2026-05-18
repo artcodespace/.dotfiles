@@ -1,4 +1,5 @@
 # Shell & terminal
+brew "gh"
 brew "stow"
 brew "tmux"
 brew "fzf"
