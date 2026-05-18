@@ -14,5 +14,6 @@ session=$(echo "$selected" | awk '{print $NF}' | tr -d '[]' | sed -E 's|^art/(rv
 read -p "Remove worktree '$wt_path'? [y/N] " confirm
 [[ "$confirm" =~ ^[Yy]$ ]] || exit 1
 
-git -C ~/code/alto worktree remove "$wt_path" || exit 1
+git -C ~/code/alto worktree remove --force "$wt_path" || exit 1
+rm -rf "$wt_path"
 tmux kill-session -t "$session" 2>/dev/null
