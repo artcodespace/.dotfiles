@@ -54,3 +54,7 @@ They also assume secrets are kept in `~/.secrets` in the form `export SECRET=VAL
 
 - Tmux:
   - figure out worktree workflow
+  - move fzf to f binding for consistency
+
+- General:
+  - Align the resizing controls between nvim, tmux, aerospace
