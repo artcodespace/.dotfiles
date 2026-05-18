@@ -6,6 +6,7 @@ config="${1:-}"
 
 # Exit with `Usage` if no config argument passed, if incorrect extension
 # Exit with error if file not found.
+# Correctly handle absolute and relative paths.
 [[ -n "$config" ]] || { echo "Usage: $(basename "$0") <layout-file>"; exit 1;}
 [[ "$config" == *"$ext" ]] || { echo "Usage: config file must use .tmux extension"; exit 1;}
 [[ -f "$config" ]] || { echo "Error: unable to find file $config"; exit 1;}
