@@ -67,7 +67,7 @@
             if platform == mac
             then
               # MAC SPECIFIC
-              [unstablePkgs.aerospace]
+              [unstablePkgs.aerospace unstablePkgs.jankyborders]
             else []
           )
           ++ (

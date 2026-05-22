@@ -27,3 +27,4 @@ brew "alejandra"
 # GUI
 cask "ghostty"
 cask "nikitabobko/tap/aerospace"
+brew "felixkratz/formulae/borders"
