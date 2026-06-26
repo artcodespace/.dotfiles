@@ -28,3 +28,6 @@ brew "alejandra"
 cask "ghostty"
 cask "nikitabobko/tap/aerospace"
 brew "felixkratz/formulae/borders"
+
+# AI
+brew "pi-coding-agent"
