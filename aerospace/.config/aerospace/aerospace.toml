@@ -34,7 +34,7 @@
 
   [[on-window-detected]]
   if.app-id = 'com.linear'
-  run = 'move-node-to-workspace G'
+  run = ['layout tiling', 'move-node-to-workspace G']
 
   [[on-window-detected]]
   if.app-id = 'com.mitchellh.ghostty'
