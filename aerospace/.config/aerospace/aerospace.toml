@@ -62,19 +62,21 @@
   alt-equal = 'resize smart +50'
 
   # Workspaces
+  alt-w = 'workspace W'
+  alt-t = 'workspace T'
   alt-a = 'workspace A'
   alt-s = 'workspace S'
   alt-d = 'workspace D'
   alt-f = 'workspace F'
   alt-g = 'workspace G'
-  alt-t = 'workspace T'
   alt-space = 'workspace T'
+  alt-shift-w = 'move-node-to-workspace W'
   alt-shift-a = 'move-node-to-workspace A'
+  alt-shift-t = 'move-node-to-workspace T'
   alt-shift-s = 'move-node-to-workspace S'
   alt-shift-d = 'move-node-to-workspace D'
   alt-shift-f = 'move-node-to-workspace F'
   alt-shift-g = 'move-node-to-workspace G'
-  alt-shift-t = 'move-node-to-workspace T'
   alt-shift-space = 'move-node-to-workspace T'
   alt-tab = 'workspace-back-and-forth'
 
@@ -89,3 +91,4 @@
   [mode.service.binding]
   esc = 'mode main'
   r = ['reload-config', 'mode main']
+  shift-r = ['exec-and-forget killall AeroSpace; sleep 1; open -a AeroSpace', 'mode main']
