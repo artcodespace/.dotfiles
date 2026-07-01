@@ -33,6 +33,10 @@
   run = 'move-node-to-workspace F'
 
   [[on-window-detected]]
+  if.app-id = 'com.apple.Safari'
+  run = 'move-node-to-workspace F'
+
+  [[on-window-detected]]
   if.app-id = 'com.linear'
   run = ['layout tiling', 'move-node-to-workspace G']
 
